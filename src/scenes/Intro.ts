@@ -1,7 +1,7 @@
 export default class Intro extends Phaser.Scene {
-  
+
   private _logo: Phaser.GameObjects.Image;
-  private _playGame: Phaser.GameObjects.BitmapText;
+  private _play: Phaser.GameObjects.BitmapText;
 
   constructor() {
     super({
@@ -10,56 +10,72 @@ export default class Intro extends Phaser.Scene {
   }
   create() {
 
+    this.cameras.main.setBackgroundColor("#000000");
 
-    let particles = this.add.particles("flares");
+    let particles: Phaser.GameObjects.Particles.ParticleEmitterManager = this.add.particles("flares");
 
-    let emitter=particles.createEmitter({
-      frame: "yellow",
+    particles.createEmitter({
+      frame: "blue",
       y: 0,
       x: { min: 0, max: this.game.canvas.width },
       lifespan: 10000,
-      speedY: { min: 50, max: 3000 },
-      scale: { start: 0.1, end: 0.5 },
-      quantity: 4 
+      speedY: { min: 250, max: 400 },
+      scale: { min: 0.05, max: 0.1 },
+      quantity: 1
 
     })
 
+    particles.createEmitter({
+      frame: "white",
+      y: 0,
+      x: { min: 0, max: this.game.canvas.width },
+      lifespan: 10000,
+      speedY: { min: 250, max: 400 },
+      scale: { min: 0.05, max: 0.1 },
+      quantity: 1
 
+    })
 
-    this.cameras.main.setBackgroundColor("#000000")
 
     this._logo = this.add.image(this.game.canvas.width / 2, 50, "galaxian").setAlpha(0);
     this.add.tween({
       targets: this._logo, y: 150, alpha: 1, duration: 1000, ease: "quad.easeInOut",
 
       onComplete: () => {
-         this.add.tween({
-           targets: this._logo, y: 120, repeat: -1, yoyo: true, duration: 1000, ease: "quad.easeInOut",
-          });
-       }
+        this.add.tween({
+          targets: this._logo, y: 120, repeat: -1, yoyo: true, duration: 1000, ease: "quad.easeInOut",
+        });
+      }
     });
 
-    this._playGame = this.add.bitmapText(this.game.canvas.width / 2, this.game.canvas.height - 20, "arcade", "Clicca per giocare");
 
-    this._playGame.setTint(0xff0000)
-      .setOrigin(.5)
+    this._play = this.add
+      .bitmapText(this.game.canvas.width / 2, 550, "arcade", "PLAY")
+      .setAlpha(1)
+      .setOrigin(0.5)
       .setInteractive()
+      .setDepth(100)
+      .setTint(0xff8200)
       .on("pointerup", () => {
-
-        this.startGame();        
-
-       });
+        this._play.removeInteractive();
+        this.startGame();
+      })
+      .on("pointerover", () => {
+        this._play.setTint(0xff0000);
+      })
+      .on("pointerout", () => {
+        this._play.setTint(0xff8200);
+      });
   }
 
-
-  
   startGame() {
 
     this.scene.stop("Intro");
     this.scene.start("GamePlay");
-    console.log("click")
+    this.scene.start("Hud");
+    this.scene.bringToTop("Hud");
 
-   }
+  }
 
   update(time: number, delta: number): void { }
 

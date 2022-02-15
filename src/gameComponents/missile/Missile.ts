@@ -18,7 +18,6 @@ export default class Missile extends Phaser.GameObjects.Sprite implements IMissi
 
   create() {
 
-console.log("create bomb")
     let _animation = {
     key: "rotate",
     frames: this.anims.generateFrameNumbers("bomb", {
@@ -32,15 +31,18 @@ console.log("create bomb")
     this.setScale(1)
     this._body.setCircle(14, 3, 2).setVelocity(0, -400)
     this.anims.create(_animation);
-    this.play("rotate");
+    this.play("rotate").setAlpha(0).setScale(0.5).setDepth(10);
+    this._scene.tweens.add({ targets: this, alpha: 1, scale: 1, duration: 200 });
+    this._scene.addMissile(this);
     this._scene.add.existing(this);
+    
 
 
   }
 
   update(time: number, delta: number) {
 
-    if (this.y < 0) { this.destroy();}
+    if (this.y < 0) { this._scene.removeMissile(this);}
   }
 
   removeItem() {}

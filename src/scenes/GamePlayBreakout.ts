@@ -1,7 +1,7 @@
 
-import BOMB from "../gameComponents/bomb/Bomb";
 
-export default class GamePlay extends Phaser.Scene {
+
+export default class GamePlayBreakout extends Phaser.Scene {
 
   private bricks: Phaser.Physics.Arcade.StaticGroup;
   private ball: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -10,7 +10,7 @@ export default class GamePlay extends Phaser.Scene {
 
 
   constructor() {
-    super({ key: "GamePlay" });
+    super({ key: "GamePlayBreakout" });
   }
 
   preload() {}

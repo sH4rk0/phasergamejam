@@ -1,7 +1,7 @@
 import { GameData } from "../GameData";
 
 export default class Preloader extends Phaser.Scene {
-  
+
   private _loading: Phaser.GameObjects.BitmapText;
   private _progress: Phaser.GameObjects.Graphics;
   private _image: Phaser.GameObjects.Image;
@@ -18,9 +18,9 @@ export default class Preloader extends Phaser.Scene {
     this.loadAssets();
   }
 
-  update(time: number, delta: number) {}
+  update(time: number, delta: number) { }
 
-  
+
   init() {
     this._image = this.add
       .image(
@@ -60,14 +60,14 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.on("complete", () => {
       this._loading.setText("Tap to start!");
-       this.input.once("pointerdown", () => {
+      this.input.once("pointerdown", () => {
         this.tweens.add({
           targets: [this._image, this._loading],
           alpha: 0,
           duration: 500,
           onComplete: () => {
-            //this.scene.start("Intro");
-            this.scene.start("GamePlay");
+            this.scene.start("Intro");
+            //this.scene.start("GamePlay");
           },
         });
       });
@@ -78,60 +78,60 @@ export default class Preloader extends Phaser.Scene {
     //--------------------------
 
     //SCRIPT
-    if(GameData.script!=null)
-    GameData.script.forEach((element: ScriptAsset) => {
-      this.load.script(element.key, element.path);
-    });
+    if (GameData.script != null)
+      GameData.script.forEach((element: ScriptAsset) => {
+        this.load.script(element.key, element.path);
+      });
 
     // IMAGES
-    if(GameData.images!=null)
-    GameData.images.forEach((element: ImageAsset) => {
-      this.load.image(element.name, element.path);
-    });
+    if (GameData.images != null)
+      GameData.images.forEach((element: ImageAsset) => {
+        this.load.image(element.name, element.path);
+      });
 
     // TILEMAPS
-   if(GameData.tilemaps!=null)
-    GameData.tilemaps.forEach((element: TileMapsAsset) => {
-      this.load.tilemapTiledJSON(element.key, element.path);
-    });
+    if (GameData.tilemaps != null)
+      GameData.tilemaps.forEach((element: TileMapsAsset) => {
+        this.load.tilemapTiledJSON(element.key, element.path);
+      });
 
     // ATLAS
-    if(GameData.atlas!=null)
-    GameData.atlas.forEach((element: AtlasAsset) => {
-      this.load.atlas(element.key, element.imagepath, element.jsonpath);
-    });
+    if (GameData.atlas != null)
+      GameData.atlas.forEach((element: AtlasAsset) => {
+        this.load.atlas(element.key, element.imagepath, element.jsonpath);
+      });
 
     // SPRITESHEETS
-    if(GameData.spritesheets!=null)
-    GameData.spritesheets.forEach((element: SpritesheetsAsset) => {
-      this.load.spritesheet(element.name, element.path, {
-        frameWidth: element.width,
-        frameHeight: element.height,
-        endFrame: element.frames,
+    if (GameData.spritesheets != null)
+      GameData.spritesheets.forEach((element: SpritesheetsAsset) => {
+        this.load.spritesheet(element.name, element.path, {
+          frameWidth: element.width,
+          frameHeight: element.height,
+          endFrame: element.frames,
+        });
       });
-    });
 
     //bitmap fonts
-    if(GameData.bitmapfont!=null)
-    GameData.bitmapfont.forEach((element: BitmapfontAsset) => {
-      this.load.bitmapFont(element.name, element.imgpath, element.xmlpath);
-    });
+    if (GameData.bitmapfont != null)
+      GameData.bitmapfont.forEach((element: BitmapfontAsset) => {
+        this.load.bitmapFont(element.name, element.imgpath, element.xmlpath);
+      });
 
     // SOUNDS
-    if(GameData.sounds!=null)
-    GameData.sounds.forEach((element: SoundAsset) => {
-      this.load.audio(element.name, element.paths);
-    });
+    if (GameData.sounds != null)
+      GameData.sounds.forEach((element: SoundAsset) => {
+        this.load.audio(element.name, element.paths);
+      });
 
     // Audio
-    if(GameData.audio!=null)
-    GameData.audio.forEach((element: AudioSpriteAsset) => {
-      this.load.audioSprite(
-        element.name,
-        element.jsonpath,
-        element.paths,
-        element.instance
-      );
-    });
+    if (GameData.audio != null)
+      GameData.audio.forEach((element: AudioSpriteAsset) => {
+        this.load.audioSprite(
+          element.name,
+          element.jsonpath,
+          element.paths,
+          element.instance
+        );
+      });
   }
 }

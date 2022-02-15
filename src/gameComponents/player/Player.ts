@@ -9,7 +9,7 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
 
   private _cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private _spacebar: Phaser.Input.Keyboard.Key;
- 
+
   constructor(params: genericConfig) {
     super(params.scene, params.x, params.y, params.key);
     this._config = params;
@@ -23,67 +23,76 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
     this._cursors = this._scene.input.keyboard.createCursorKeys();
     this._spacebar = this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-/*
+    let _animation = {
+      key: "idle",
+      frames: this.anims.generateFrameNumbers(this._config.key, {
+        frames: [0, 1]
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: 0
+    };
 
+    this.anims.create(_animation);
 
-this._spacebar =
-this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    _animation = {
+      key: "move",
+      frames: this.anims.generateFrameNumbers(this._config.key, {
+        frames: [2, 3]
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: 0
+    };
 
-let _animation = {
-key: "idle",
-frames: this.anims.generateFrameNumbers(this._config.key, {
-frames: [0,1]
-}),
-frameRate: 10,
-yoyo: false,
-repeat: 0
-};
-this.anims.create(_animation);
-_animation = {
-key: "move",
-frames: this.anims.generateFrameNumbers(this._config.key, {
-frames: [2,3]
-}),
-frameRate: 10,
-yoyo: false,
-repeat: 0
-};
-this.anims.create(_animation);
-this.setDepth(11);
-
-*/
-
-   
+    this.anims.create(_animation);
+    this.setDepth(11);
   }
-
-
-  
 
   update(time: number, delta: number) {
 
+    //se preme la barra spaziatrice
+    if (Phaser.Input.Keyboard.JustDown(this._spacebar)) {
 
-    if (Phaser.Input.Keyboard.JustDown(this._spacebar)) { 
-
-      console.log("lancia missile")
-
-      new Missile({scene:this._scene, x:this.x,y:this.y,key:"missile"})
+      //crea una nova istanza di missile
+      new Missile({ scene: this._scene, x: this.x, y: this.y, key: "missile" })
 
     }
-   
+
+    //se il il cursore sinistro è premuto
     if (this._cursors.left.isDown) {
-      this._body.setAccelerationX(-100)
-      //codice
-    }
-    else if (this._cursors.right.isDown) {
-      // codice
-        this._body.setAccelerationX(100)
-    }
-    else { 
-      this._body.setAccelerationX(0)
+      this.setFlipX(false);
+      this.anims.play('move', true);
+      this._body.setAccelerationX(-160);
 
-      //codice
+    }
+
+    //se il il cursore destro è premuto
+    else if (this._cursors.right.isDown) {
+      this.setFlipX(true);
+      this.anims.play('move', true);
+      this._body.setAccelerationX(160);
+    }
+
+    else if (this._cursors.up.isDown) {
+      this.anims.play('idle', true);
+      this._body.setAccelerationY(-160);
+
+    }
+
+    //se il il cursore destro è premuto
+    else if (this._cursors.down.isDown) {
+      this.anims.play('idle', true);
+      this._body.setAccelerationY(160);
+    }
+
+    else {
+      this._body.setAcceleration(0, 0);
+      this.anims.play('idle', true);
+
     }
 
 
