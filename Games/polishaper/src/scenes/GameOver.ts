@@ -13,6 +13,7 @@ export default class GameOver extends Phaser.Scene {
   create() {
     localStorage.removeItem("score");
     localStorage.removeItem("lives");
+    localStorage.removeItem("bestLevel");
     this.cameras.main.setBackgroundColor("#000000");
     let particles = this.add.particles('flares');
 
