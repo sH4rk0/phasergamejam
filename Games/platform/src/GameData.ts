@@ -15,11 +15,33 @@ export let GameData: any = {
     loadingText: "",
   },
 
+  //inseriamo un oggetto con le impostazioni dei nostri livelli
+  levelsOptions: {
+
+    pages: 1,
+    tintColors: [0xff0000, 0x00ff00, 0x0000ff],
+    columns: 3,
+    rows: 1,
+    thumbWidth: 60,
+    thumbHeight: 60,
+    spacing: 20,
+    levels: [{ title: "Level 1" }, { title: "Level 2" }, { title: "Level 3" }]
+
+  },
+
 
   tilemaps: [
     {
       key: "level-0",
       path: "assets/map/level-0.json",
+    },
+    {
+      key: "level-1",
+      path: "assets/map/level-1.json",
+    },
+    {
+      key: "level-2",
+      path: "assets/map/level-2.json",
     },
   ],
 
@@ -105,20 +127,43 @@ export let GameData: any = {
       height: 50,
       frames: 8
     },
+    {
+      name: "levelthumb",
+      path: "assets/images/levelthumb.png",
+      width: 60,
+      height: 60,
+      frames: 2
+    },
+    {
+      name: "bonus-heart",
+      path: "assets/images/bonus-heart.png",
+      width: 40,
+      height: 40,
+      frames: 2
+    },
+    {
+      name: "bonus-coin",
+      path: "assets/images/bonus-coin.png",
+      width: 64,
+      height: 64,
+      frames: 8
+    },
   ],
 
   images: [
 
     { name: "bg", path: "assets/images/bg.jpg" },
-    { name: "galaxian", path: "assets/images/galaxian.png" }
-
+    { name: "galaxian", path: "assets/images/galaxian.png" },
+    { name: "bg-0", path: "assets/images/bg-0.png" },
+    { name: "bg-1", path: "assets/images/bg-1.png" },
+    { name: "bg-2", path: "assets/images/bg-2.png" },
+    { name: "bg-3", path: "assets/images/bg-3.png" }
 
 
   ],
 
 
   atlas: [
-    { key: "breakout", imagepath: "assets/images/breakout.png", jsonpath: "assets/images/breakout.json" },
     { key: "flares", imagepath: "assets/images/flares.png", jsonpath: "assets/images/flares.json" },
   ],
 
