@@ -2,9 +2,14 @@ export default class Intro extends Phaser.Scene {
 
   private _logo: Phaser.GameObjects.Image;
   private _play: Phaser.GameObjects.BitmapText;
+  private _counter: number = 0;
+  private _cubes: Phaser.GameObjects.TileSprite;
 
 
   constructor() {
+
+
+
     super({
       key: "Intro",
     });
@@ -16,32 +21,9 @@ export default class Intro extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor("#000000");
 
-    let particles: Phaser.GameObjects.Particles.ParticleEmitterManager = this.add.particles("flares");
-
-    particles.createEmitter({
-      frame: "blue",
-      y: 0,
-      x: { min: 0, max: this.game.canvas.width },
-      lifespan: 10000,
-      speedY: { min: 250, max: 400 },
-      scale: { min: 0.05, max: 0.1 },
-      quantity: 1
-
-    })
-
-    particles.createEmitter({
-      frame: "white",
-      y: 0,
-      x: { min: 0, max: this.game.canvas.width },
-      lifespan: 10000,
-      speedY: { min: 250, max: 400 },
-      scale: { min: 0.05, max: 0.1 },
-      quantity: 1
-
-    })
-
-
-    this._logo = this.add.image(this.game.canvas.width / 2, 50, "galaxian").setAlpha(0);
+    this._cubes = this.add.tileSprite(0, 0, 1024, 600, "cubes").setOrigin(0)
+    this.add.image(0, 0, "trasparenza").setOrigin(0).setScale(2);
+    this._logo = this.add.image(this.game.canvas.width / 2, 50, "greenbots").setAlpha(0);
     this.add.tween({
       targets: this._logo, y: 150, alpha: 1, duration: 1000, ease: "quad.easeInOut",
 
@@ -59,7 +41,7 @@ export default class Intro extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive()
       .setDepth(100)
-      .setTint(0xff8200)
+      .setTint(0xffffff)
       .on("pointerup", () => {
         this._play.removeInteractive();
         this.startGame();
@@ -68,7 +50,7 @@ export default class Intro extends Phaser.Scene {
         this._play.setTint(0xff0000);
       })
       .on("pointerout", () => {
-        this._play.setTint(0xff8200);
+        this._play.setTint(0xffffff);
       });
   }
 
@@ -80,7 +62,13 @@ export default class Intro extends Phaser.Scene {
 
   }
 
-  update(time: number, delta: number): void { }
+  update(time: number, delta: number): void {
+
+
+    this._counter += 0.01;
+    this._cubes.tilePositionX += Math.sin(this._counter) * 1;
+    this._cubes.tilePositionY += Math.cos(this._counter) * 1;
+  }
 
 }
 

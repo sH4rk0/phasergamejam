@@ -340,21 +340,21 @@ export default class GamePlay extends Phaser.Scene {
       this.layer4,
       (_player: any, _tile: any) => {
 
-        //se la TILE ha la proprietà di tipo kill
+        //se la TILE ha la proprietà di tipo "KILL"
         if (_tile.properties.kill == true) {
           //decremento le vite
           this.events.emit("decrease-live");
           //riposiziono il PLAYER in una posizione arbitraria
-          this._player.setPosition(this.game.canvas.width / 2, 450)
+          this._player.setPosition(64, 450)
 
         }
-        //se la TILE ha la proprietà di tipo exit
+        //se la TILE ha la proprietà di tipo "EXIT"
         else if (_tile.properties.exit == true) {
           // richiamo il metodo levelCompleted
           this.levelCompleted();
 
         }
-        //se la TILE ha la proprietà di tipo win
+        //se la TILE ha la proprietà di tipo "WIN"
         else if (_tile.properties.win == true) {
           // richiamo il metodo gameCompleted
           this.gameCompleted();
@@ -487,7 +487,7 @@ export default class GamePlay extends Phaser.Scene {
       //se il PLAYER collide in altro modo dal precedente
       else {
         //riposizioniamo il PLAYER in una posizione arbitraria
-        this._player.setPosition(this.game.canvas.width / 2, 450);
+        this._player.setPosition(64, 450);
         //emettiamo l'evento "decrease-live" che verrà intercettato dal listener nella HUD
         this.events.emit("decrease-live");
       }
@@ -496,7 +496,7 @@ export default class GamePlay extends Phaser.Scene {
 
   }
 
-  //quando il PLAYER collide con un BONUS
+  //metodo richiamato quando il PLAYER collide con un BONUS
   hitBonus(player: any, bonus: any) {
 
     //effettuiamo una conversione dal tipo any al tipo corretto

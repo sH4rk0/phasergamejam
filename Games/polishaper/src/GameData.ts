@@ -153,7 +153,9 @@ export let GameData: any = {
   images: [
 
     { name: "bg", path: "assets/images/bg.jpg" },
-    { name: "galaxian", path: "assets/images/galaxian.png" },
+    { name: "greenbots", path: "assets/images/greenbots.png" },
+    { name: "cubes", path: "assets/images/cubes.png" },
+    { name: "trasparenza", path: "assets/images/trasparenza.png" },
     { name: "bg-0", path: "assets/images/bg-0.png" },
     { name: "bg-1", path: "assets/images/bg-1.png" },
     { name: "bg-2", path: "assets/images/bg-2.png" },
