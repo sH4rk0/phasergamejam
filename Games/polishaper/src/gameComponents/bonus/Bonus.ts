@@ -15,6 +15,17 @@ export default class Bonus extends Phaser.GameObjects.Sprite implements IBonus {
     this._body = <Phaser.Physics.Arcade.Body>this.body;
     this._scene.addBonus(this);
     this._scene.add.existing(this);
+    this._body
+      .setGravity(0, 1200)
+      .setVelocityY(
+        Phaser.Math.RND.integerInRange(-500, -600)
+      ).setBounce(.3, .3).setImmovable(true);
+
+    this._scene.time.addEvent({
+      delay: 1000, callback: () => {
+        this._isActive = true;
+      }
+    });
 
   }
   create() { }
@@ -24,6 +35,7 @@ export default class Bonus extends Phaser.GameObjects.Sprite implements IBonus {
     return this._isActive;
   }
   getBonus() {
+
     this._scene.removeBonus(this);
 
   }

@@ -6,6 +6,8 @@ import EnemyPlatform from "../gameComponents/enemy/EnemyPlatform";
 import Bonus from "../gameComponents/bonus/Bonus";
 import { GameData } from "../GameData";
 import BonusCoin from "../gameComponents/bonus/BonusCoin";
+import BonusHeart from "../gameComponents/bonus/BonusHeart";
+import BonusKey from "../gameComponents/bonus/BonusKey";
 
 export default class GamePlay extends Phaser.Scene {
 
@@ -50,11 +52,18 @@ export default class GamePlay extends Phaser.Scene {
   //game object bitmaptext per la scritta del livello
   private _levelTitle: Phaser.GameObjects.BitmapText;
 
+  //variabile per stabilire se la chiave è stata presa o meno
+  private _haveKey: boolean = false;
 
   constructor() {
+    // richiamiamo l'istanza padre passandogli il nome della scena
+    // tutte le scene che noi creiamo ereditano ed estendono la classe Phaser.Scene
     super({ key: "GamePlay" });
   }
 
+  //questo metodo viene richiamato in automatico quando viene creata una scena e viene chiamato prima del CREATE
+  // i metodi richiamati in automatico in una scena sono INIT, PRELOAD, CREATE, UPDATE
+  // non devono essere per forza presenti tutti
   init(data: any) {
 
     //recuperiamo il valore levelcompleted e controlliamo che questo valore non sia nulla   
@@ -69,7 +78,10 @@ export default class GamePlay extends Phaser.Scene {
 
   }
 
+  //questo metodo viene richiamato in automatico quando viene creata una scena
   create() {
+
+    this._haveKey = false;
 
     //creo il particle emitter manager per l'esplosione dell'asteroide usando la texture "asteroid-emitter"
     this._asteroidParticle = this.add
@@ -349,13 +361,13 @@ export default class GamePlay extends Phaser.Scene {
 
         }
         //se la TILE ha la proprietà di tipo "EXIT"
-        else if (_tile.properties.exit == true) {
+        else if (_tile.properties.exit == true && this._haveKey) {
           // richiamo il metodo levelCompleted
           this.levelCompleted();
 
         }
         //se la TILE ha la proprietà di tipo "WIN"
-        else if (_tile.properties.win == true) {
+        else if (_tile.properties.win == true && this._haveKey) {
           // richiamo il metodo gameCompleted
           this.gameCompleted();
 
@@ -476,12 +488,12 @@ export default class GamePlay extends Phaser.Scene {
       if (_player.getBody().touching.down && _enemy.getBody().touching.up) {
         //emettiamo la particella per la distruzione dell'ENEMY
         this._robotParticle.emitParticleAt(_enemy.x, _enemy.y);
-        //creiamo un bonus
-        new BonusCoin({ scene: this, x: _enemy.x, y: _enemy.y, key: "bonus-coin" });
         //rimuoviamo l'ENEMY dal gruppo _enemyGroup
         this.removeEnemy(_enemy);
         //riproduciamo il suono dell'esplosione
         this.playExplosion();
+        // richiamo il metodo per la creazione del bonus
+        this.bonusLogic(_enemy.x, _enemy.y)
 
       }
       //se il PLAYER collide in altro modo dal precedente
@@ -496,6 +508,56 @@ export default class GamePlay extends Phaser.Scene {
 
   }
 
+  //metodo per la gestione della logica di rilascio dei bonus
+  bonusLogic(x: number, y: number) {
+
+    // produco un valore random tra 0 e 100
+    const _rnd: number = Phaser.Math.RND.integerInRange(0, 100);
+
+    //controllo se il numero di nemici è maggiore di zero
+    if (this._enemyGroup.countActive() > 0) {
+
+      // se il valore è minore di 50 creo un bonus di tipo coin
+      if (_rnd < 65) {
+
+        new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
+
+      }
+      // se il valore è tra 50 e 95 e non ho la chiave genero un bonus di tipo chiave
+      else if (_rnd >= 65 && _rnd < 95 && !this._haveKey) {
+
+        new BonusKey({ scene: this, x: x, y: y, key: "bonus-key" });
+      }
+      // se il valore è maggiore di 95 genero un bonus di tipo heart
+      else if (_rnd >= 95) {
+
+        new BonusHeart({ scene: this, x: x, y: y, key: "bonus-heart" });
+      }
+
+      //se nessuna delle precedenti opzioni è valida genero un bonus di tipo coin
+      else {
+
+        new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
+
+      }
+
+    }
+    //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico, e la chiave ancora non è stata presa, genero in maniera forzata il bonus di titpo chiave   
+    else if (this._enemyGroup.countActive() == 0 && !this._haveKey) {
+
+      new BonusKey({ scene: this, x: x, y: y, key: "bonus-hearth" });
+
+    }
+    //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico,  è la chiave è stata presa, genero in maniera forzata il bonus di titpo coin
+    else if (this._enemyGroup.countActive() == 0 && this._haveKey) {
+
+      new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
+
+    }
+
+  }
+
+
   //metodo richiamato quando il PLAYER collide con un BONUS
   hitBonus(player: any, bonus: any) {
 
@@ -506,17 +568,32 @@ export default class GamePlay extends Phaser.Scene {
     if (_bonus.isActive()) {
       //viene esguito il metodo getBonus
       _bonus.getBonus();
-      //emettiamo l'evento "update-score" che verrà intercettato dal listener nella HUD
-      this.events.emit("update-score", [50]);
-      //riproduciamo un suono
-      this.sound.playAudioSprite(
-        "sfx",
-        "nodamage",
-        {
-          loop: false,
-          volume: 0.2,
-        }
-      );
+
+      //se il bonus è di tipo COIN
+      if (_bonus.name == "coin") {
+
+        //emettiamo l'evento "update-score" che verrà intercettato dal listener nella HUD
+        this.events.emit("update-score", [50]);
+        //riproduciamo un suono
+        this.sound.playAudioSprite("sfx", "nodamage", { loop: false, volume: 0.2, });
+      }
+      //se il bonus è di tipo KEY
+      else if (_bonus.name == "key") {
+        //settiamo la variabile a true
+        this._haveKey = true;
+        //riproduciamo un suono
+        this.sound.playAudioSprite("sfx", "nodamage", { loop: false, volume: 0.2, });
+
+      }
+      //se il bonus è di tipo HEART
+      else if (_bonus.name == "heart") {
+        //emettiamo l'evento "update-live" che verrà intercettato dal listener nella HUD
+        this.events.emit("update-score", [50]);
+
+      }
+
+
+
     }
   }
 
@@ -546,6 +623,7 @@ export default class GamePlay extends Phaser.Scene {
     );
   }
 
+  //questo metodo viene richiamato in automatico ogni sessantesimo di secondo
   update(time: number, delta: number) {
 
     // muoviamo la positione X delle tile in base alla posizione della camera moltiplicando per un fattore che ne rallenta il movimento

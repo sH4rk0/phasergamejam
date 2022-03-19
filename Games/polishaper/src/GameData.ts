@@ -142,6 +142,13 @@ export let GameData: any = {
       frames: 2
     },
     {
+      name: "bonus-key",
+      path: "assets/images/bonus-key.png",
+      width: 40,
+      height: 40,
+      frames: 2
+    },
+    {
       name: "bonus-coin",
       path: "assets/images/bonus-coin.png",
       width: 64,

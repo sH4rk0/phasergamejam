@@ -25,5 +25,12 @@ export default class BonusHeart extends Bonus {
     this.play("bonus-heart-anim")
 
   }
+
+  getBonus() {
+
+    super.getBonus();
+
+
+  }
   update(time: number, delta: number) { }
 }

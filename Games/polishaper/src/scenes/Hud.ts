@@ -1,122 +1,196 @@
 import GamePlay from "./GamePlay";
 
 export default class Hud extends Phaser.Scene {
+
+  //creiamo tutte le variabili di cui avremo bisogno
+  //gameobject che visualizzera il punteggio
   private _scoreText: Phaser.GameObjects.BitmapText;
+  //variabile per salvare il punteggio
   private _score: number;
+  //gameobject che visualizzera le vite
   private _livesText: Phaser.GameObjects.BitmapText;
+  //variabile per salvare le vite
   private _lives: number;
+  //variabile che contiente un istanza della scena GAMEPLAY per creare un canale di comunicazione tra GAMEPLAY e HUD
   private _gamePlay: GamePlay;
+  //in questa variabile inizializzeremo la musica 
   private _music: Phaser.Sound.BaseSound;
 
 
   constructor() {
+
+    // richiamiamo l'istanza padre passandogli il nome della scena
+    // tutte le scene che noi creiamo ereditano ed estendono la classe Phaser.Scene
     super({
       key: "Hud",
     });
   }
 
-  preload() { }
 
+  //questo metodo viene richiamato in automatico quando viene creata una scena e viene chiamato prima del CREATE
+  // i metodi richiamati in automatico in una scena sono INIT, PRELOAD, CREATE, UPDATE
+  // non devono essere per forza presenti tutti
   create() {
 
 
 
-
+    //creiamo l'istaza sound per la nostra musica di sottofondo
     this._music = this.sound.add("music0");
 
+    //effettuiamo il play dell'stanza indicando la la musica quando termina deve ricominciare (loop:true) e settiamo anche il volume
     this._music.play(undefined, {
       loop: true,
       volume: 0.03,
     });
 
+    //settiamo il numero di vite iniziali a 3
     this._lives = 3;
+    //settiamo lo score a 0
     this._score = 0;
 
+    //recuperiamo dal Localstorare lo score salvato
     let __score: string | null = localStorage.getItem("score");
+    //se non è null lo convertiamo in intero e lo assegnamo a this._score
     if (__score != null) this._score = parseInt(__score);
 
-    console.log(this._score);
-
+    //recuperiamo dal Localstorare le vite salvate
     let __lives: string | null = localStorage.getItem("lives");
+    //se non è null lo convertiamo in intero e lo assegnamo a this._lives
     if (__lives != null) this._lives = parseInt(__lives);
 
 
+    //recuperiamo l'istanza di gameplay e la assegnamo alla nostra variabile locale.
     this._gamePlay = <GamePlay>this.scene.get("GamePlay");
 
+    //nel blocco seguente rimuoviamo e ricreiamo tutti gli eventi in ascolto (listeners) che saranno inviati dalla scena GAMEPLAY verso la HUD (scena corrente) 
+
+    //rimuoviamo il listener per l'aggiornamento del punteggio
     this._gamePlay.events.off("update-score", this.updateScore, this);
+    //ricreiamo il listener per l'aggiornamento del punteggio
     this._gamePlay.events.on("update-score", this.updateScore, this);
 
+    //rimuoviamo il listener per l'aggiornamento delle vite (decremento)
     this._gamePlay.events.off("decrease-live", this.decreaseLive, this);
+    //ricreiamo il listener per l'aggiornamento  delle vite (decremento)
     this._gamePlay.events.on("decrease-live", this.decreaseLive, this);
 
+    //rimuoviamo il listener per l'aggiornamento delle vite  (incremento)
+    this._gamePlay.events.off("increase-live", this.increaseLive, this);
+    //ricreiamo il listener per l'aggiornamento  delle vite (incremento)
+    this._gamePlay.events.on("increase-live", this.increaseLive, this);
+
+    //rimuoviamo il listener per il completamento del livello
     this._gamePlay.events.off("level-completed", this.levelCompleted, this);
+    //ricreiamo il listener per il completamento del livello
     this._gamePlay.events.on("level-completed", this.levelCompleted, this);
 
+    //rimuoviamo il listener per il completamento del gioco
     this._gamePlay.events.off("game-completed", this.gameCompleted, this);
+    //ricreiamo il listener per il completamento del gioco
     this._gamePlay.events.on("game-completed", this.gameCompleted, this);
 
-
+    //salviamo nel registry il valore del punteggio
+    //il registry può essere utilizzato per salvare valori che devono essere utilizzati in scene diverse
     this.registry.set("score", this._score);
 
+    //creiamo il gameobject per il punteggio
     this._scoreText = this.add
       .bitmapText(20, 20, "arcade", this._score + "")
-      .setFontSize(30)
-      .setTint(0xffffff)
+      .setFontSize(30) //settiamo il font size a 30
+      .setTint(0xffffff) //colore bianco
       .setOrigin(0);
 
+    //creiamo il gameobject per le vire
     this._livesText = this.add
       .bitmapText(1024 - 40, 20, "arcade", "" + this._lives)
-      .setFontSize(30)
-      .setTint(0xffffff)
+      .setFontSize(30) //settiamo il font size a 30
+      .setTint(0xffffff) //colore bianco
       .setOrigin(0);
 
   }
 
-  update() { }
 
-
+  //metodo richiamato quando si deve aggiornare il punteggio
   private updateScore(parameters: Array<any>): void {
+    // i metodi si aspettano un array di parametri
+    // in questo caso il primo valore passato è lo score che aggiungiamo allo score corrente
     this._score += parameters[0];
+    // settiamo il valore del gameobject
     this._scoreText.setText(this._score + "");
+    // salviamo il valore nel registry
     this.registry.set("score", this._score);
+    // salviamo il valore anche nel local storage
     localStorage.setItem("score", this._score + "");
 
   }
 
+  //metodo richiamato quando si deve decrementare una vita
   private decreaseLive(): void {
+    //decrementiamo la vita di 1
     this._lives--;
-    this._livesText.setText(this._lives + "");
+    //aggiorniamo il valore nel gameogjict delle vite
+    this._livesText.setText(this._lives + "")
+    // salviamo il valore nel registry
     this.registry.set("lives", this._lives);
+    // salviamo il valore anche nel local storage
     localStorage.setItem("lives", this._lives + "");
+    // se le vite sono zero viene richiamato il metodo gameOver
     if (this._lives == 0) this.gameOver();
 
   }
 
+  //metodo richiamato quando si deve incrementare una vita
+  private increaseLive(): void {
+    //incrementiamo la vita di 1
+    this._lives++;
+    //aggiorniamo il valore nel gameogjict delle vite
+    this._livesText.setText(this._lives + "");
+    // salviamo il valore nel registry
+    this.registry.set("lives", this._lives);
+    // salviamo il valore anche nel local storage
+    localStorage.setItem("lives", this._lives + "");
+  }
+
+
+  //richiamato quando le vite arrivano a zero
   private gameOver() {
 
+    // fermiamo la riproduzione della musica
     this._music.stop();
+    // fermiamo la scena corrente
     this.scene.stop("Hud");
+    //fermiamo la scena di gameplay
     this.scene.stop("GamePlay");
+    // richiamiamo la scena di gameover
     this.scene.start("GameOver");
 
   }
 
+  //richiamato quando il livello è completato
   private levelCompleted(parameters: Array<any>) {
 
+    //recumperiamo il livello attuale
     let _level: number = parameters[0];
+    // fermiamo la riproduzione della musica
     this._music.stop();
+    // fermiamo la scena corrente
     this.scene.stop("Hud");
+    //fermiamo la scena di gameplay
     this.scene.stop("GamePlay");
+    // richiamiamo la scena di selezione dei livelli
     this.scene.start("Levels", { levelCompleted: _level });
-
 
   }
 
   private gameCompleted() {
 
+    // fermiamo la riproduzione della musica
     this._music.stop();
+    // fermiamo la scena corrente
     this.scene.stop("Hud");
+    //fermiamo la scena di gameplay
     this.scene.stop("GamePlay");
+    // richiamiamo la scena di selezione di vittoria
     this.scene.start("Win");
 
 
