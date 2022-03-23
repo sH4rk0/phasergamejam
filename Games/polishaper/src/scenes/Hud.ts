@@ -135,7 +135,15 @@ export default class Hud extends Phaser.Scene {
     // salviamo il valore anche nel local storage
     localStorage.setItem("lives", this._lives + "");
     // se le vite sono zero viene richiamato il metodo gameOver
-    if (this._lives == 0) this.gameOver();
+    if (this._lives == 0) {
+      // facciamo partire il game over dopo quasi un secondo
+      this.time.addEvent({
+        delay: 950, callback: () => {
+          this.gameOver();
+        }
+      })
+
+    }
 
   }
 

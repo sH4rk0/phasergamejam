@@ -136,7 +136,7 @@ export let GameData: any = {
     },
     {
       name: "bonus-heart",
-      path: "assets/images/bonus-heart.png",
+      path: "assets/images/bonus-key.png",
       width: 40,
       height: 40,
       frames: 2

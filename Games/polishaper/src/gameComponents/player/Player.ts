@@ -129,4 +129,20 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
 
   }
 
+  death() {
+
+    this._body.setEnable(false);
+    this.setAlpha(0);
+
+  }
+
+  relive() {
+
+    console.log("relive")
+    this._body.setEnable(true);
+    this.setAlpha(1);
+    this.setPosition(64, 500);
+  }
+
+
 }

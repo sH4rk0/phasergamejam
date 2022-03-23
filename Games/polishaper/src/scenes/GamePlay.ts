@@ -34,6 +34,7 @@ export default class GamePlay extends Phaser.Scene {
   //i due emitter manager per la gestione delle esplosioni (asteroide e nemico)
   private _asteroidParticle: Phaser.GameObjects.Particles.ParticleEmitterManager;
   private _robotParticle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+  private _playerParticle: Phaser.GameObjects.Particles.ParticleEmitterManager;
 
   //i game objects relativi alla mappa di tile gestita con TILED
   private map: Phaser.Tilemaps.Tilemap;
@@ -143,7 +144,7 @@ export default class GamePlay extends Phaser.Scene {
 
     this._robotParticle.createEmitter({
       frame: [1, 2],
-      angle: { min: 0, max: 360 },
+      angle: 180,
       speed: { min: -200, max: -300 },
       quantity: 2,
       lifespan: 3000,
@@ -155,6 +156,45 @@ export default class GamePlay extends Phaser.Scene {
     });
 
     this._robotParticle.createEmitter({
+      frame: 5,
+      lifespan: 200,
+      scale: { start: 2, end: 0 },
+      rotate: { start: 0, end: 180 },
+      alpha: { start: 0.8, end: 0 },
+      on: false
+    });
+
+    //creo il particle emitter manager per l'esplosione del robot nemico usando la texture "robo-emitter"
+    this._playerParticle = this.add
+      .particles("robo-emitter")
+      .setDepth(101);
+
+    //creo tre diversi emitter nella stessa modalità dell'esplosione dell'asteroide
+    this._playerParticle.createEmitter({
+      frame: 0,
+      angle: { min: 0, max: 360 },
+      speed: { min: 10, max: 30 },
+      quantity: { min: 6, max: 8 },
+      lifespan: 2000,
+      alpha: { start: 1, end: 0 },
+      scale: { start: 0.1, end: 0.4 },
+      on: false
+    });
+
+    this._playerParticle.createEmitter({
+      frame: [3, 4],
+      angle: { min: 0, max: 360 },
+      speed: { min: -200, max: -300 },
+      quantity: 2,
+      lifespan: 3000,
+      alpha: { start: 1, end: 0 },
+      scale: { start: 1, end: 1.5 },
+      rotate: { start: 0, end: 360 },
+      gravityY: 800,
+      on: false
+    });
+
+    this._playerParticle.createEmitter({
       frame: 5,
       lifespan: 200,
       scale: { start: 2, end: 0 },
@@ -179,7 +219,7 @@ export default class GamePlay extends Phaser.Scene {
 
     //creo l'istanza del player posizionandolo in un punto arbitrario della mappa
     this._player = new Player({
-      scene: this, x: this.game.canvas.width / 2, y:
+      scene: this, x: 64, y:
         450, key: "robo"
     });
 
@@ -356,8 +396,8 @@ export default class GamePlay extends Phaser.Scene {
         if (_tile.properties.kill == true) {
           //decremento le vite
           this.events.emit("decrease-live");
-          //riposiziono il PLAYER in una posizione arbitraria
-          this._player.setPosition(64, 450)
+          //richiamiamo la funzione per la morte del player
+          this.playerDeath()
 
         }
         //se la TILE ha la proprietà di tipo "EXIT"
@@ -498,13 +538,34 @@ export default class GamePlay extends Phaser.Scene {
       }
       //se il PLAYER collide in altro modo dal precedente
       else {
-        //riposizioniamo il PLAYER in una posizione arbitraria
-        this._player.setPosition(64, 450);
+        //richiamiamo la funzione per la morte del player
+        //this.playerDeath()
         //emettiamo l'evento "decrease-live" che verrà intercettato dal listener nella HUD
-        this.events.emit("decrease-live");
+        //this.events.emit("decrease-live");
       }
 
     }
+
+  }
+
+  playerDeath() {
+
+    this.cameras.main.stopFollow();
+    this._player.death();
+    this._playerParticle.emitParticleAt(this._player.x, this._player.y);
+
+    this.time.addEvent({
+      delay: 1000, callback: () => {
+        this._player.relive();
+        this.cameras.main.startFollow(
+          this._player,
+          true,
+          1,
+          0,
+          0,
+          0);
+      }
+    });
 
   }
 
@@ -545,7 +606,7 @@ export default class GamePlay extends Phaser.Scene {
     //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico, e la chiave ancora non è stata presa, genero in maniera forzata il bonus di titpo chiave   
     else if (this._enemyGroup.countActive() == 0 && !this._haveKey) {
 
-      new BonusKey({ scene: this, x: x, y: y, key: "bonus-hearth" });
+      new BonusKey({ scene: this, x: x, y: y, key: "bonus-key" });
 
     }
     //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico,  è la chiave è stata presa, genero in maniera forzata il bonus di titpo coin
