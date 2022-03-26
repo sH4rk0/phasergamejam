@@ -16,6 +16,13 @@ export default class Hud extends Phaser.Scene {
   //in questa variabile inizializzeremo la musica 
   private _music: Phaser.Sound.BaseSound;
 
+  //variabile per il bg della hud quando il livello è completato
+  private _completedContainer: Phaser.GameObjects.Container;
+  //variabile per il bg della hud quando il livello è completato
+  private _completedBg: Phaser.GameObjects.Image;
+  //variabile per il bg della hud quando il livello è completato
+  private _completedLabel: Phaser.GameObjects.BitmapText;
+
 
   constructor() {
 
@@ -31,6 +38,12 @@ export default class Hud extends Phaser.Scene {
   // i metodi richiamati in automatico in una scena sono INIT, PRELOAD, CREATE, UPDATE
   // non devono essere per forza presenti tutti
   create() {
+
+
+    this._completedContainer = this.add.container(0, 0).setAlpha(0);
+    this._completedBg = this.add.image(0, 0, "bg-black").setOrigin(0);
+    this._completedLabel = this.add.bitmapText(this.game.canvas.width / 2, this.game.canvas.height / 2, "arcade", "Livello Completato").setOrigin(.5);
+    this._completedContainer.add([this._completedBg, this._completedLabel]);
 
 
 
@@ -174,19 +187,42 @@ export default class Hud extends Phaser.Scene {
 
   }
 
-  //richiamato quando il livello è completato
-  private levelCompleted(parameters: Array<any>) {
 
-    //recumperiamo il livello attuale
+  private levelCompleted(parameters: Array<any>) {
+    //recupero il livello dai parametri inviati dalla chiamata dal gameplay
     let _level: number = parameters[0];
+    //incrementiamo il livello
+    _level++;
+    //rendo visibile il container del livello completato
+    this._completedContainer.setAlpha(1);
+    //metto in pausa la scena del gamplay
+    this.scene.pause("GamePlay");
+    //dopo 2 secondi chiamo la funzione nextlevel per passare al livello successivo
+    this.time.addEvent({
+      delay: 2000, callback: () => {
+        this.nextLevel(_level);
+      }
+    })
+  }
+
+  //richiamato quando il livello è completato
+  private nextLevel(level: number) {
+
     // fermiamo la riproduzione della musica
     this._music.stop();
     // fermiamo la scena corrente
     this.scene.stop("Hud");
     //fermiamo la scena di gameplay
     this.scene.stop("GamePlay");
+    //richiamiamo la scena di gameplay passandogli il livello
+    this.scene.start("GamePlay", { level: level });
+    //faccio partire la scena HUD
+    this.scene.start("Hud");
+    //porto la scena HUD in primo piano
+    this.scene.bringToTop("Hud");
+
     // richiamiamo la scena di selezione dei livelli
-    this.scene.start("Levels", { levelCompleted: _level });
+    //this.scene.start("Levels", { levelCompleted: _level });
 
   }
 

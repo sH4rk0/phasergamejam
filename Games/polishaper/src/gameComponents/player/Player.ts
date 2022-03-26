@@ -72,10 +72,11 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
 
   update(time: number, delta: number) {
 
-    //se preme la barra spaziatrice
+    //se preme la barra spaziatrice spara una bomba
     if (Phaser.Input.Keyboard.JustDown(this._spacebar)) {
       //crea una nova istanza di missile nella direzione del player
-      new Missile({ scene: this._scene, x: this.x, y: this.y, key: "missile", direction: this._direction })
+      //in questa versione del gioco il player non spara
+      //new Missile({ scene: this._scene, x: this.x, y: this.y, key: "missile", direction: this._direction })
 
     }
 
@@ -130,18 +131,20 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
   }
 
   death() {
-
+    //disattivo il body del player
     this._body.setEnable(false);
+    //setto l'alpha a zero e lo rendo invisibile
     this.setAlpha(0);
 
   }
 
   relive() {
-
-    console.log("relive")
+    //riattivo il body del player
     this._body.setEnable(true);
+    //setto l'alpha a 1 e lo rendo visibile
     this.setAlpha(1);
-    this.setPosition(64, 500);
+    //lo riposiziono allo start
+    this.setPosition(64, 450);
   }
 
 

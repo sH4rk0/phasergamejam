@@ -57,7 +57,7 @@ export default class Intro extends Phaser.Scene {
     //creo l'istanza del pulsante per il play del gioco
     this._play = this.add
       .bitmapText(this.game.canvas.width / 2, 400, "arcade", "PLAY")
-      .setAlpha(1) //setto l'alpha a 1
+      .setAlpha(0) //setto l'alpha a 1
       .setOrigin(0.5) //setto l'origin centrale
       .setInteractive() //abilito l'interazione 
       .setDepth(100) //setto la profondità
@@ -82,7 +82,7 @@ export default class Intro extends Phaser.Scene {
     //creo l'istanza del pulsante per il testo "come giocare" del gioco
     this._howToPlay = this.add
       .bitmapText(this.game.canvas.width / 2, 500, "arcade", "Come giocare", 20)
-      .setAlpha(1) //setto l'alpha a 1
+      .setAlpha(0) //setto l'alpha a 0
       .setOrigin(0.5) //setto l'origin centrale
       .setInteractive() //abilito l'interazione 
       .setDepth(100) //setto la profondità
@@ -108,7 +108,7 @@ export default class Intro extends Phaser.Scene {
     //creo l'istanza del container e la posiziono a 0,0 con alpha a 0
     this._howToPlayContainer = this.add.container(0, 0).setAlpha(0).setDepth(1000);
     //creo un immagine per creare opacità 
-    let _howToPlayBg = this.add.image(0, 0, "intro-black").setOrigin(0).setInteractive().on("pointerdown", () => {
+    let _howToPlayBg = this.add.image(0, 0, "bg-black").setOrigin(0).setInteractive().on("pointerdown", () => {
       this.hideHowToPlay();
     });
     // creo un testo "come giocare" da visualizzare nel container
@@ -121,7 +121,7 @@ export default class Intro extends Phaser.Scene {
     //creo l'istanza del pulsante per il testo "crediti" del gioco
     this._credits = this.add
       .bitmapText(this.game.canvas.width / 2, 550, "arcade", "Crediti", 20)
-      .setAlpha(1) //setto l'alpha a 1
+      .setAlpha(0) //setto l'alpha a 1
       .setOrigin(0.5) //setto l'origin centrale
       .setInteractive() //abilito l'interazione 
       .setDepth(100) //setto la profondità
@@ -147,7 +147,7 @@ export default class Intro extends Phaser.Scene {
     //creo l'istanza del container e la posiziono a 0,0 con alpha a 0
     this._creditsContainer = this.add.container(0, 0).setAlpha(0).setDepth(1000);
     //creo un immagine per creare opacità 
-    let _creditBg = this.add.image(0, 0, "intro-black").setOrigin(0).setInteractive().on("pointerdown", () => {
+    let _creditBg = this.add.image(0, 0, "bg-black").setOrigin(0).setInteractive().on("pointerdown", () => {
       this.hideCredits();
     });
     // creo un testo "crediti" da visualizzare nel container
@@ -157,6 +157,18 @@ export default class Intro extends Phaser.Scene {
     //aggiungo tutti i gameobj al container
     this._creditsContainer.add([_creditBg, _creditsLabel, _creditsText]);
 
+
+
+    //applichiamo un tween ai 3 pulsanti (play crediti e come giocare)
+    //il tween viene appilcato in maniera sequenziale dal primo elemento dell'array targets con un delay di 250 ms gestito dalla funzione this.tweens.stagger
+    this.tweens.add({
+      targets: [this._credits, this._howToPlay, this._play],
+      y: "-=30",
+      alpha: 1,
+      duration: 2000,
+      ease: 'Sine.easeInOut',
+      delay: this.tweens.stagger(250, {})
+    });
 
   }
 
@@ -200,7 +212,7 @@ export default class Intro extends Phaser.Scene {
     //stoppo la scena corrente
     this.scene.stop("Intro");
     //faccio partire la scena gameplay
-    this.scene.start("GamePlay");
+    this.scene.start("GamePlay", { level: 0 });
     //faccio partire la scena HUD
     this.scene.start("Hud");
     //porto la scena HUD in primo piano

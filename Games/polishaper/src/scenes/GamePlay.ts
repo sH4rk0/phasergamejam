@@ -55,6 +55,8 @@ export default class GamePlay extends Phaser.Scene {
 
   //variabile per stabilire se la chiave è stata presa o meno
   private _haveKey: boolean = false;
+  //variabile per stabilire se la chiave è rilasciata come bonus
+  private _keySpawned: boolean = false;
 
   constructor() {
     // richiamiamo l'istanza padre passandogli il nome della scena
@@ -82,7 +84,10 @@ export default class GamePlay extends Phaser.Scene {
   //questo metodo viene richiamato in automatico quando viene creata una scena
   create() {
 
+    //la chiave non è stata presa
     this._haveKey = false;
+    //la chiave non è stata rilasciata
+    this._keySpawned = false;
 
     //creo il particle emitter manager per l'esplosione dell'asteroide usando la texture "asteroid-emitter"
     this._asteroidParticle = this.add
@@ -525,7 +530,7 @@ export default class GamePlay extends Phaser.Scene {
 
       //controlliamo il tipo di collisione tra PLAYER e ENEMY
       //se il margine inferiore del PLAYER collide con il margine superiore dell'ENEMY 
-      if (_player.getBody().touching.down && _enemy.getBody().touching.up) {
+      if (_player.getBody().touching.down && _enemy.getBody().touching.up || true) {
         //emettiamo la particella per la distruzione dell'ENEMY
         this._robotParticle.emitParticleAt(_enemy.x, _enemy.y);
         //rimuoviamo l'ENEMY dal gruppo _enemyGroup
@@ -575,43 +580,51 @@ export default class GamePlay extends Phaser.Scene {
     // produco un valore random tra 0 e 100
     const _rnd: number = Phaser.Math.RND.integerInRange(0, 100);
 
+    console.log(_rnd, this._haveKey);
     //controllo se il numero di nemici è maggiore di zero
     if (this._enemyGroup.countActive() > 0) {
 
-      // se il valore è minore di 50 creo un bonus di tipo coin
+      // se il valore è minore di 65 creo un bonus di tipo coin
       if (_rnd < 65) {
-
+        //creo un bonus di tipo coin
         new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
 
       }
-      // se il valore è tra 50 e 95 e non ho la chiave genero un bonus di tipo chiave
-      else if (_rnd >= 65 && _rnd < 95 && !this._haveKey) {
-
+      // se il valore è tra 65 e 95 e non ho la chiave genero un bonus di tipo chiave
+      else if (_rnd >= 65 && _rnd < 95 && !this._haveKey && !this._keySpawned) {
+        //creo un bonus di tipo chiave
         new BonusKey({ scene: this, x: x, y: y, key: "bonus-key" });
+        this._keySpawned = true;
+
+      }
+      // se il valore è tra 65 e 95 e ho la chiave genero un bonus di tipo chiave
+      else if (_rnd >= 65 && _rnd < 95 && this._keySpawned) {
+        //creo un bonus di tipo chiave
+        new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
+
       }
       // se il valore è maggiore di 95 genero un bonus di tipo heart
       else if (_rnd >= 95) {
-
+        //creo un bonus di tipo cuore
         new BonusHeart({ scene: this, x: x, y: y, key: "bonus-heart" });
       }
-
       //se nessuna delle precedenti opzioni è valida genero un bonus di tipo coin
       else {
-
+        //creo un bonus di tipo coin
         new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
 
       }
 
     }
     //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico, e la chiave ancora non è stata presa, genero in maniera forzata il bonus di titpo chiave   
-    else if (this._enemyGroup.countActive() == 0 && !this._haveKey) {
-
+    else if (this._enemyGroup.countActive() == 0 && !this._keySpawned && !this._haveKey) {
+      //creo un bonus di tipo chiave
       new BonusKey({ scene: this, x: x, y: y, key: "bonus-key" });
 
     }
-    //se il numero di nemici è uguale a zero, quindi ho eliminato l'ultimo nemico,  è la chiave è stata presa, genero in maniera forzata il bonus di titpo coin
-    else if (this._enemyGroup.countActive() == 0 && this._haveKey) {
-
+    //se nessuna delle precedenti opzioni è valida genero un bonus di tipo coin
+    else {
+      //creo un bonus di tipo coin
       new BonusCoin({ scene: this, x: x, y: y, key: "bonus-coin" });
 
     }
@@ -640,7 +653,7 @@ export default class GamePlay extends Phaser.Scene {
       }
       //se il bonus è di tipo KEY
       else if (_bonus.name == "key") {
-        //settiamo la variabile a true
+        //settiamo la variabile a true così da sapere se una chiave è già stata presa
         this._haveKey = true;
         //riproduciamo un suono
         this.sound.playAudioSprite("sfx", "nodamage", { loop: false, volume: 0.2, });
@@ -648,8 +661,8 @@ export default class GamePlay extends Phaser.Scene {
       }
       //se il bonus è di tipo HEART
       else if (_bonus.name == "heart") {
-        //emettiamo l'evento "update-live" che verrà intercettato dal listener nella HUD
-        this.events.emit("update-score", [50]);
+        //emettiamo l'evento "increase-live" che verrà intercettato dal listener nella HUD
+        this.events.emit("increase-live");
 
       }
 
