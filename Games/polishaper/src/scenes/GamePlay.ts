@@ -539,9 +539,9 @@ export default class GamePlay extends Phaser.Scene {
       //se il PLAYER collide in altro modo dal precedente
       else {
         //richiamiamo la funzione per la morte del player
-        //this.playerDeath()
+        this.playerDeath()
         //emettiamo l'evento "decrease-live" che verrà intercettato dal listener nella HUD
-        //this.events.emit("decrease-live");
+        this.events.emit("decrease-live");
       }
 
     }

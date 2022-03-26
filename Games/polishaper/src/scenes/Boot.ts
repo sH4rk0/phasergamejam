@@ -14,9 +14,9 @@ export default class Boot extends Phaser.Scene {
 
     var graphics = this.make.graphics({ x: 0, y: 0, add: false });
 
-    graphics.fillStyle(0xff0000, 1);
-    graphics.fillRect(0, 0, 32, 32);
-    graphics.generateTexture("robot", 32, 32);
+    graphics.fillStyle(0x000000, .9);
+    graphics.fillRect(0, 0, 1024, 600);
+    graphics.generateTexture("intro-black", 1024, 600);
 
     this.load.image("logo", "assets/images/logo.png");
     this.load.bitmapFont(
