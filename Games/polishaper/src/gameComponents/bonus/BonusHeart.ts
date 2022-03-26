@@ -22,7 +22,21 @@ export default class BonusHeart extends Bonus {
     };
 
     this._config.scene.anims.create(_animationConfig);
-    this.play("bonus-heart-anim")
+    this.play("bonus-heart-anim");
+
+    //dopo 5 secondi faccio sparire il cuore se non è stato collezionato
+    this._scene.time.addEvent({
+      delay: 5000, callback: () => {
+        //tween per la scomparsa
+        this._scene.tweens.add({
+          targets: this, alpha: 0, duration: 500, onComplete: () => {
+            //al completamento del tween rimuovo il bonus dalla scena
+            this._scene.removeBonus(this);
+          }
+        })
+
+      }
+    })
 
   }
 

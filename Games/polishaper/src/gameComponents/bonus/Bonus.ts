@@ -21,6 +21,7 @@ export default class Bonus extends Phaser.GameObjects.Sprite implements IBonus {
         Phaser.Math.RND.integerInRange(-500, -600)
       ).setBounce(.3, .3).setImmovable(true);
 
+    //attivo il bonus per essere collezionato dal player dopo 1secondo
     this._scene.time.addEvent({
       delay: 1000, callback: () => {
         this._isActive = true;
