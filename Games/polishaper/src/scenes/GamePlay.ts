@@ -530,7 +530,7 @@ export default class GamePlay extends Phaser.Scene {
 
       //controlliamo il tipo di collisione tra PLAYER e ENEMY
       //se il margine inferiore del PLAYER collide con il margine superiore dell'ENEMY 
-      if (_player.getBody().touching.down && _enemy.getBody().touching.up || true) {
+      if (_player.getBody().touching.down && _enemy.getBody().touching.up) {
         //emettiamo la particella per la distruzione dell'ENEMY
         this._robotParticle.emitParticleAt(_enemy.x, _enemy.y);
         //rimuoviamo l'ENEMY dal gruppo _enemyGroup
@@ -649,20 +649,23 @@ export default class GamePlay extends Phaser.Scene {
         //emettiamo l'evento "update-score" che verrà intercettato dal listener nella HUD
         this.events.emit("update-score", [50]);
         //riproduciamo un suono
-        this.sound.playAudioSprite("sfx", "nodamage", { loop: false, volume: 0.2, });
+        this.sound.playAudioSprite("sfx", "coin", { loop: false, volume: 0.2, });
       }
       //se il bonus è di tipo KEY
       else if (_bonus.name == "key") {
         //settiamo la variabile a true così da sapere se una chiave è già stata presa
         this._haveKey = true;
         //riproduciamo un suono
-        this.sound.playAudioSprite("sfx", "nodamage", { loop: false, volume: 0.2, });
+        this.sound.playAudioSprite("sfx", "key", { loop: false, volume: 0.2, });
 
       }
       //se il bonus è di tipo HEART
       else if (_bonus.name == "heart") {
         //emettiamo l'evento "increase-live" che verrà intercettato dal listener nella HUD
         this.events.emit("increase-live");
+        //riproduciamo un suono
+        this.sound.playAudioSprite("sfx", "heart", { loop: false, volume: 0.2, });
+
 
       }
 

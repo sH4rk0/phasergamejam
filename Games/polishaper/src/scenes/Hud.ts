@@ -189,6 +189,19 @@ export default class Hud extends Phaser.Scene {
 
 
   private levelCompleted(parameters: Array<any>) {
+
+    // fermiamo la riproduzione della musica
+    this._music.stop();
+
+    // eseguiamo l'effetto sonoro di completamento livello.
+    this.sound.playAudioSprite(
+      "sfx",
+      "completed",
+      {
+        loop: false,
+        volume: 0.2,
+      }
+    );
     //recupero il livello dai parametri inviati dalla chiamata dal gameplay
     let _level: number = parameters[0];
     //incrementiamo il livello
@@ -208,8 +221,7 @@ export default class Hud extends Phaser.Scene {
   //richiamato quando il livello è completato
   private nextLevel(level: number) {
 
-    // fermiamo la riproduzione della musica
-    this._music.stop();
+
     // fermiamo la scena corrente
     this.scene.stop("Hud");
     //fermiamo la scena di gameplay
