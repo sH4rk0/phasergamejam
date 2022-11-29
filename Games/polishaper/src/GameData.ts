@@ -180,9 +180,30 @@ export let GameData: any = {
 
   sounds: [
     {
-      name: "music0",
-      paths: ["assets/sounds/music0.ogg", "assets/sounds/music0.m4a"],
+      name: "game",
+      paths: ["assets/sounds/game.ogg", "assets/sounds/game.m4a"],
       volume: 1,
+      loop: false,
+      frame: 1,
+    },
+    {
+      name: "intro",
+      paths: ["assets/sounds/intro.ogg", "assets/sounds/intro.m4a"],
+      volume: .6,
+      loop: false,
+      frame: 1,
+    },
+    {
+      name: "win",
+      paths: ["assets/sounds/win.ogg", "assets/sounds/win.m4a"],
+      volume: .6,
+      loop: false,
+      frame: 1,
+    },
+    {
+      name: "gameover",
+      paths: ["assets/sounds/gameover.ogg", "assets/sounds/gameover.m4a"],
+      volume: .6,
       loop: false,
       frame: 1,
     },

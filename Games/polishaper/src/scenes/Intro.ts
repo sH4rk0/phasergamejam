@@ -16,7 +16,8 @@ export default class Intro extends Phaser.Scene {
   private _counter: number = 0;
   //variabile per la tilesprite dello sfondo
   private _cubes: Phaser.GameObjects.TileSprite;
-
+  //in questa variabile inizializzeremo la musica dell'introduzione 
+  private _music: Phaser.Sound.BaseSound;
 
   constructor() {
 
@@ -28,7 +29,13 @@ export default class Intro extends Phaser.Scene {
 
   create() {
 
-
+    //creiamo l'istaza sound per la nostra musica di sottofondo
+    this._music = this.sound.add("intro");
+    //effettuiamo il play dell'stanza indicando la la musica quando termina deve ricominciare (loop:true) e settiamo anche il volume
+    this._music.play(undefined, {
+      loop: true,
+      volume: 0.1,
+    });
 
     //setto il background della camera a nero
     this.cameras.main.setBackgroundColor("#000000");
@@ -206,7 +213,8 @@ export default class Intro extends Phaser.Scene {
 
   // metodo start game
   startGame() {
-
+    // fermiamo la riproduzione della musica
+    this._music.stop();
     //************************************** */
     //************************************** */
     //stoppo la scena corrente

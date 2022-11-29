@@ -545,6 +545,8 @@ export default class GamePlay extends Phaser.Scene {
       else {
         //richiamiamo la funzione per la morte del player
         this.playerDeath()
+        //riproduciamo il suono dell'esplosione
+        this.playExplosion();
         //emettiamo l'evento "decrease-live" che verrà intercettato dal listener nella HUD
         this.events.emit("decrease-live");
       }
@@ -580,7 +582,6 @@ export default class GamePlay extends Phaser.Scene {
     // produco un valore random tra 0 e 100
     const _rnd: number = Phaser.Math.RND.integerInRange(0, 100);
 
-    console.log(_rnd, this._haveKey);
     //controllo se il numero di nemici è maggiore di zero
     if (this._enemyGroup.countActive() > 0) {
 
@@ -695,7 +696,7 @@ export default class GamePlay extends Phaser.Scene {
       "explosion",
       {
         loop: false,
-        volume: 0.2,
+        volume: 0.05,
       }
     );
   }

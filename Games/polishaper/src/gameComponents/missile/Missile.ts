@@ -35,6 +35,7 @@ export default class Missile extends Phaser.GameObjects.Sprite implements IMissi
     this._scene.tweens.add({ targets: this, alpha: 1, scale: 1, duration: 200 });
     this._scene.addMissile(this);
     this._scene.add.existing(this);
+    this._body.allowGravity = false;
 
     if (this._config.direction == "left") { this._body.setVelocityX(-400) }
     else if (this._config.direction == "right") { this._body.setVelocityX(400) }

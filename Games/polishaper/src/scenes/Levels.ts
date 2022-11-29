@@ -25,10 +25,10 @@ export default class Levels extends Phaser.Scene {
     let _nextLevel: number = 0;
 
     //recuperiamo il valore del migliore livello superato dal local storage
-    let __bestLevel: string | null = localStorage.getItem("bestLevel");
+    //let __bestLevel: string | null = localStorage.getItem("bestLevel");
     //se il valore non è null lo convertiamo in number e lo assegnamo alla variabile locale this._bestLevel
     //se è null lo settiamo a zero
-    if (__bestLevel != null) { this._bestLevel = parseInt(__bestLevel); } else { this._bestLevel = 0; }
+    //if (__bestLevel != null) { this._bestLevel = parseInt(__bestLevel); } else { this._bestLevel = 0; }
 
     //se 
     if (this._levelCompleted != null) {

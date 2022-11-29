@@ -10,7 +10,11 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
   private _body: Phaser.Physics.Arcade.Body;
   private _cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private _spacebar: Phaser.Input.Keyboard.Key;
+  private _up: Phaser.Input.Keyboard.Key;
   private _direction: string;
+  private _canDoubleJump: boolean = false;
+
+
 
   constructor(params: genericConfig) {
     //passiamo i parametri di inizializzazione alla classe SPRITE
@@ -37,6 +41,8 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
     this._cursors = this._scene.input.keyboard.createCursorKeys();
     //inizializziamo la SPACE KEY 
     this._spacebar = this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    //inizializziamo la UP 
+    this._up = this._scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
     //creiamo l'animazione di pausa
     let _animation = {
@@ -76,18 +82,35 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
     if (Phaser.Input.Keyboard.JustDown(this._spacebar)) {
       //crea una nova istanza di missile nella direzione del player
       //in questa versione del gioco il player non spara
-      //new Missile({ scene: this._scene, x: this.x, y: this.y, key: "missile", direction: this._direction })
+      new Missile({ scene: this._scene, x: this.x, y: this.y, key: "missile", direction: this._direction })
 
     }
 
 
     //se il tasto cursore up è premuto ed il player è a contatto con il pavimento
-    if (this._cursors.up.isDown && this._body.blocked.down) {
-      //effettua il play dell'animazione
-      this.anims.play('idle', true);
-      //setta la velocità y in modo da far saltare il player
-      this._body.setVelocityY(-550);
+    /* if (this._cursors.up.isDown && this._body.blocked.down) {
+       console.log("single")
+       //effettua il play dell'animazione
+       this.anims.play('idle', true);
+       //setta la velocità y in modo da far saltare il player
+       this._body.setVelocityY(-550);
+ 
+     }
+     */
 
+    const didPressJump = Phaser.Input.Keyboard.JustDown(this._up);
+
+    // player can only double jump if the player just jumped
+    if (didPressJump) {
+      if (this._body.onFloor()) {
+        // player can only double jump if it is on the floor
+        this._canDoubleJump = true;
+        this._body.setVelocityY(-550);
+      } else if (this._canDoubleJump) {
+        // player can only jump 2x (double jump)
+        this._canDoubleJump = false;
+        this._body.setVelocityY(-550);
+      }
     }
 
 
@@ -124,6 +147,7 @@ export default class Player extends Phaser.GameObjects.Sprite implements IPlayer
       this.anims.play('idle', true);
       //setta la direction a NONE
       this._direction = "none";
+
 
     }
 

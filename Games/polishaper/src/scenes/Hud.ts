@@ -48,7 +48,7 @@ export default class Hud extends Phaser.Scene {
 
 
     //creiamo l'istaza sound per la nostra musica di sottofondo
-    this._music = this.sound.add("music0");
+    this._music = this.sound.add("game");
 
     //effettuiamo il play dell'stanza indicando la la musica quando termina deve ricominciare (loop:true) e settiamo anche il volume
     this._music.play(undefined, {
@@ -62,14 +62,14 @@ export default class Hud extends Phaser.Scene {
     this._score = 0;
 
     //recuperiamo dal Localstorare lo score salvato
-    let __score: string | null = localStorage.getItem("score");
+    //let __score: string | null = localStorage.getItem("score");
     //se non è null lo convertiamo in intero e lo assegnamo a this._score
-    if (__score != null) this._score = parseInt(__score);
+    //if (__score != null) this._score = parseInt(__score);
 
     //recuperiamo dal Localstorare le vite salvate
-    let __lives: string | null = localStorage.getItem("lives");
+    //let __lives: string | null = localStorage.getItem("lives");
     //se non è null lo convertiamo in intero e lo assegnamo a this._lives
-    if (__lives != null) this._lives = parseInt(__lives);
+    //if (__lives != null) this._lives = parseInt(__lives);
 
 
     //recuperiamo l'istanza di gameplay e la assegnamo alla nostra variabile locale.
@@ -133,7 +133,7 @@ export default class Hud extends Phaser.Scene {
     // salviamo il valore nel registry
     this.registry.set("score", this._score);
     // salviamo il valore anche nel local storage
-    localStorage.setItem("score", this._score + "");
+    //localStorage.setItem("score", this._score + "");
 
   }
 
@@ -146,7 +146,7 @@ export default class Hud extends Phaser.Scene {
     // salviamo il valore nel registry
     this.registry.set("lives", this._lives);
     // salviamo il valore anche nel local storage
-    localStorage.setItem("lives", this._lives + "");
+    //localStorage.setItem("lives", this._lives + "");
     // se le vite sono zero viene richiamato il metodo gameOver
     if (this._lives == 0) {
       // facciamo partire il game over dopo quasi un secondo
@@ -169,7 +169,7 @@ export default class Hud extends Phaser.Scene {
     // salviamo il valore nel registry
     this.registry.set("lives", this._lives);
     // salviamo il valore anche nel local storage
-    localStorage.setItem("lives", this._lives + "");
+    //localStorage.setItem("lives", this._lives + "");
   }
 
 
