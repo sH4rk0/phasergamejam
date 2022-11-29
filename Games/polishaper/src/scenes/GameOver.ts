@@ -3,7 +3,8 @@ export default class GameOver extends Phaser.Scene {
   private _GameOver: Phaser.GameObjects.BitmapText;
   private _intro: Phaser.GameObjects.BitmapText;
   private _restart: Phaser.GameObjects.BitmapText;
-
+  //in questa variabile inizializzeremo la musica dell'introduzione 
+  private _music: Phaser.Sound.BaseSound;
   constructor() {
     super({
       key: "GameOver",
@@ -11,6 +12,16 @@ export default class GameOver extends Phaser.Scene {
   }
 
   create() {
+
+    //creiamo l'istaza sound per la nostra musica di sottofondo
+    this._music = this.sound.add("gameover");
+
+    //effettuiamo il play dell'stanza indicando la la musica quando termina deve ricominciare (loop:true) e settiamo anche il volume
+    this._music.play(undefined, {
+      loop: true,
+      volume: 0.1,
+    });
+
     localStorage.removeItem("score");
     localStorage.removeItem("lives");
     localStorage.removeItem("bestLevel");
@@ -82,6 +93,8 @@ export default class GameOver extends Phaser.Scene {
 
   intro() {
 
+    // fermiamo la riproduzione della musica
+    this._music.stop();
     this.scene.stop("GameOver");
     this.scene.start("Intro");
 
@@ -89,6 +102,8 @@ export default class GameOver extends Phaser.Scene {
 
   restartGame() {
 
+    // fermiamo la riproduzione della musica
+    this._music.stop();
     this.scene.stop("GameOver");
     this.scene.start("GamePlay");
     this.scene.bringToTop("GamePlay");
