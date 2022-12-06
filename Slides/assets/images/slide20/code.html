@@ -1,0 +1,42 @@
+export default class Boot extends Phaser.Scene {
+
+private _sprite: Phaser.GameObjects.Sprite;
+private _runAnimation: Array&lt;number&gt;=[0, 1, 2, 3, 4, 5, 6, 7];
+
+constructor() { super({key: "Boot"}); }
+
+preload() {
+
+this.load.spritesheet("sprite", "assets/images/players.png", {
+frameWidth: 52,
+frameHeight: 70,
+endFrame: 84
+});
+
+}
+
+create() {
+
+this._sprite = this.add
+.sprite(this.game.canvas.width / 2, 600, "sprite")
+.setScale(2);
+
+let _animation = {
+key: "run",
+frames: this.anims.generateFrameNumbers("sprite", {
+frames: this._runAnimation
+}),
+frameRate: 10,
+yoyo: false,
+repeat: -1
+};
+
+this.anims.create(_animation);
+
+this._sprite.play("run");
+
+}
+
+update() {}
+
+}

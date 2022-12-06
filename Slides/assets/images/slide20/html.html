@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>anims.create() - step 2</h1>
+            <h2>Animiamo il nostro primo sprite</h2>
+        </div>
+    </div>
+</div>
+<div class="container container-fluid m-2 p-0 w-100" style="max-width: 95%;">
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Adesso creiamo la nostra animazione, o meglio configuriamola creando una <strong>variabile</strong>
+                locale attraverso l'istruzione <strong>let</strong>
+            </p>
+
+            <p>
+                <strong class="green">let _animation = {
+                    key: "run",
+                    frames: this.anims.generateFrameNumbers("sprite", {
+                    frames: this._runAnimation
+                    }),
+                    frameRate: 10,
+                    yoyo: false,
+                    repeat: -1
+                    };
+                </strong>
+            </p>
+            <p>Passiamo la nostra variabile al metodo <strong>anims.create()</strong></p>
+            <p>
+                <strong class="green">this.anims.create(_animation);</strong>
+            </p>
+            <p>Infine chiediamo al nostro sprite di eseguire l'animazione <strong>run</strong></p>
+            <p>
+                <strong class="green">this._sprite.play("run");</strong>
+            </p>
+        </div>
+    </div>
+
+
+
+</div>

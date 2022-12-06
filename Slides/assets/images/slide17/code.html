@@ -1,0 +1,25 @@
+export default class Boot extends Phaser.Scene {
+
+private _image: Phaser.GameObjects.Image;
+
+constructor() { super({key: "Boot"}); }
+
+this.load.image("sprite", "/assets/images/sprite.png");
+
+}
+
+create() {
+
+this._image=this.add
+.image(this.game.canvas.width / 2, 550, "sprite")
+.setRotation(10);
+
+}
+
+update() {
+
+this._image.rotation += 0.1;
+
+}
+
+}

@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>LOAD nel PRELOAD</h1>
+            <h2>Sembra uno scioglilingua ma non lo è!</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Per caricare un nostro asset e renderlo disponibile alla nostra scena, dobbiamo precaricarlo nel metodo
+                <strong>PRELOAD</strong>
+            </p>
+
+            <p> <span class="red">preload {</span><br><strong class="green">this.load.image("logo",
+                    "assets/images/logo.png");</strong><br>
+                <span class="red">}</span>
+                <p>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <p>
+                Fatto questo possiamo inserire nel metodo
+                <strong>CREATE</strong> il seguente codice...
+            </p>
+
+            <p><span class="red">create {</span><br>
+                <strong class="green">this.add.image(0, 0, "logo");</strong><br>
+                <span class="red">}</span>
+                <p>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>

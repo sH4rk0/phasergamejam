@@ -1,0 +1,17 @@
+export default class Boot extends Phaser.Scene {
+private _bg: Phaser.GameObjects.TileSprite;
+    constructor() { super({key: "Boot"}); }
+
+    preload() {
+        this.load.image("bg", "/assets/images/game/bg.jpg");
+        }
+
+    create() {
+        this._bg = this.add.tileSprite(640, 450, 800, 400, "bg");
+    }
+
+    update() {
+        this._bg.tilePositionX += 0.2;
+    }
+
+}

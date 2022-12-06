@@ -1,0 +1,25 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+    let _sprite: Phaser.GameObjects.Sprite = this.add
+    .sprite(0, 300, "sprite")
+
+    this.tweens.add({
+        targets: _sprite,
+        x: 600,
+        ease: "Linear",
+        duration: 3000,
+        delay: 0,
+        repeat: 0
+    });
+        
+    }
+
+    update() {}
+
+}

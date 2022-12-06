@@ -1,0 +1,13 @@
+  const config: any = {
+  type: Phaser.WEBGL,
+  backgroundColor: "#FF0000",
+  parent: "my-game",
+  scale: {
+  mode: Phaser.Scale.FIT,
+  width: 1280,
+  height: 800
+  },
+  scene: [Boot]
+  };
+
+  const game = new Phaser.Game(config);

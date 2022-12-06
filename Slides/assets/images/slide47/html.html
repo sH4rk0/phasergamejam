@@ -1,0 +1,37 @@
+<div class="container container-fluid m-2 p-0 w-100" style="max-width: 95%;">
+    <div class="row">
+        <div class="col-12">
+            <h1>ARCADE PHYSIC</h1>
+            <h2>Aggiungiamo la gravità!</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>Perchè la forza di gravità agisca sui nostri game objects la prima cosa che dobbiamo fare è attivare la
+                <strong>Arcade Physic</strong> nel nostro file <strong class="red">InitGame.ts</strong></p>
+            <p><strong class="green"> physics: {<br>
+                    default: "arcade",<br>
+                    arcade: {<br>
+                    debug: true,<br>
+                    gravity: { y: 1 }<br>
+                    }<br>
+                    }
+                </strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p>Poi inseriamo il solito codice per inserire uno sprite nella scena, ma con una piccola modifica...</p>
+            <p><strong class="green">
+                    this.<span class="red">physics</span>.add<br>
+                    .image(640, 400, "sprite")<br>
+                    .setScale(2)<br>
+
+                </strong></p>
+        </div>
+    </div>
+
+
+
+</div>

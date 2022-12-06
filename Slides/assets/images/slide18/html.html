@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>.setInteractive()</h1>
+            <h2>La prima interazione con un GameObject</h2>
+        </div>
+    </div>
+</div>
+<div class="container container-fluid m-2 p-0 w-100" style="max-width: 95%;">
+    <div class="row">
+        <div class="col-12">
+            <p>
+
+                Per prima cosa creiamo 2 variabili, una di tipo <strong>Phaser.GameObjects.Text</strong> ed una di tipo
+                <strong>Phaser.GameObjects.Image</strong> come fatto in precedenza.
+            </p>
+            <p>
+
+                Assegnamo alle due variabili i nostri GameObjects.
+
+
+            </p>
+            <p>
+                <strong class="green"> this._text = this.add.text(this.game.canvas.width / 2, 450, "0");</strong>
+            </p>
+
+            <p>
+                <strong class="green"> this._image = this.add
+                    .image(this.game.canvas.width / 2, 550, "sprite")
+                    .setScale(2)
+                    <span class="red">.setInteractive();</span></strong>
+            </p>
+            <p>Ecco dove avviene la magia...</p>
+            <p>
+
+                <strong class="green"> this._image.on("pointerup", () => {
+                    this._clicks += 1;<br>
+                    this._text.setText("" + this._clicks);<br>
+                    });</strong>
+            </p>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>

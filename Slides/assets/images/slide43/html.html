@@ -1,0 +1,34 @@
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Time.addEvent loop</h1>
+            <h2>Creiamo un evento in loop</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>Creiamo un evento temporizzato che al completamento di ogni ciclo richiamerà una nostra funzione
+                <strong class="green">miafunzione()</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>Utilizziamo il metodo <strong>this.addEvent</strong><br><br>
+                <strong class="green">this.time.addEvent({<br>
+                    delay: 2000,<br>
+                    callback: this.miaFunzione,<br>
+                    callbackScope: this,<br>
+                    <strong class="red">loop:true</strong><br>
+                    });</strong></p>
+        </div>
+    </div>
+
+
+
+
+
+</div>

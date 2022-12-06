@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>AUDIO SPRITE</h1>
+            <h2>Gli effetti del nostro gioco</h2>
+        </div>
+    </div></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Carichiamo nel preload il nostro audio sprite
+            </p>
+             <p><strong class="green"> this.load.audioSprite("sfx",
+                    "percorsoalfileJSON.json",
+                    [
+                    "assets/sounds/sfx.ogg",
+                    "assets/sounds/sfx.m4a"
+                    ]);</strong></p>
+           
+          
+
+          
+            <p>
+                Nel Create settiamo la variabile con il suono...
+            </p>
+            <p><strong class="green">
+                this.sound.playAudioSprite("sfx", "sfxTag", {
+            loop: false,
+            volume: .1,
+          });</strong></p>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>

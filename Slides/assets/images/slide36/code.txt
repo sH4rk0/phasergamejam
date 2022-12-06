@@ -1,0 +1,11 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {this.add.tileSprite(640, 400, 800, 400, "bg");}
+
+    update() {}
+
+}

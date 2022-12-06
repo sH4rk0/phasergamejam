@@ -1,0 +1,49 @@
+export default class Boot extends Phaser.Scene {
+
+private _text: Phaser.GameObjects.Text;
+  private _image: Phaser.GameObjects.Image;
+  private _ground: Phaser.GameObjects.Image;
+  
+    constructor() { super({key: "Boot"}); }
+
+   
+  preload() {
+    console.log(this.scene.key + ":preload");
+    this.load.image("sprite", "/assets/images/sprite.png");
+  }
+
+  create(): void {
+    console.log(this.scene.key + ":create");
+
+    let graphics = this.make
+      .graphics({})
+      .fillStyle(0x00ff00)
+      .fillRect(0, 0, 1280, 100);
+    graphics.generateTexture("ground", 1280, 100);
+    graphics.destroy();
+
+    this._ground = this.physics.add
+      .image(0, 650, "ground")
+      .setDepth(10000)
+      .setOrigin(0)
+      .setAlpha(1)
+      .setImmovable(true);
+
+    //@ts-ignore
+    this._ground.body.allowGravity = false;
+
+    this._image = this.physics.add
+      .image(640, 400, "sprite")
+      .setScale(2)
+      .setGravityY(1);
+
+    this._text = this.add.text(640, 400, "y:" + this._image.y);
+
+    this.physics.add.collider(this._image, this._ground);
+  }
+
+  update(): void {
+    this._text.setText("y:" + this._image.y);
+    //console.log(this.scene.key + ":update");
+  }
+}

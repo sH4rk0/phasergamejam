@@ -1,0 +1,49 @@
+export default class Boot extends Phaser.Scene {
+
+  private _timer: Phaser.Time.TimerEvent;
+  private _textLevel: Phaser.GameObjects.Text;
+  private _text: Phaser.GameObjects.Text;
+  private _level: number;
+  private _spawn: number;
+  private _enemy: number;
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+    this._spawn = this.time.now;
+    this._enemy = 0;
+    this._level = 0;
+    this._text = this.add
+      .text(this.game.canvas.width / 2, 500, "enemy:0")
+      .setOrigin(0.5);
+
+    this._timer = this.time.addEvent({
+      delay: 2000,
+      callback: this.incrementaLivello,
+      callbackScope: this,
+      loop: true
+    });
+
+    }
+
+    incrementaLivello(): void {
+        this._level++;
+    }
+
+    controllaSpawn(): void {
+        if (this._spawn < this.time.now) {
+        this._enemy++;
+        this._spawn = this.time.now + (2000 - 100 * this._level);
+        this._text.setText("nuovo nemico: " + this._enemy);
+        }
+    }
+
+    update() {
+
+         this.controllaSpawn();
+    }
+
+}

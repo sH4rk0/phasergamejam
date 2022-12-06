@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Time.now</h1>
+            <h2>Gestiamo il tempo</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>Creaiamo un gameobject di tipo text e nell'update gli settiamo il valore tramite
+                <strong>setText()</strong></p>
+
+            <p>Definiamo la nostra variabile...</p>
+            <p><strong class="green">private _text: Phaser.GameObjects.Text;
+                </strong></p>
+            <p>La settiamo nel create...</p>
+            <p><strong class="green"> this._text = this.add.text(0, 0, "");
+                </strong></p>
+            <p>La aggiorniamo nell' update...</p>
+            <p><strong class="green">this._text.setText(" " + this.time.now);
+                </strong></p>
+
+        </div>
+    </div>
+
+
+
+</div>

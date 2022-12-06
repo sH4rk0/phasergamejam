@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>UPDATE rotation</h1>
+            <h2>Proviamo a fargli venire il mal di testa</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container container-fluid m-2 p-0 w-100" style="max-width: 95%;">
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Prima di fare questo però dobbiamo fare una piccola aggiunta al nostro codice dichiarando una
+                <strong>variabile</strong> che conterrà il riferimento al nostro GameObject, specificando anche il
+                <strong>tipo</strong>.
+            </p>
+            <p>
+                <strong class="green">private _image: Phaser.GameObjects.Image;</strong>
+            </p>
+            <p>
+                Poi come fatto in precedenza assegnamo alla
+                <strong>variabile</strong> il nostro GameObject.
+            </p>
+            <p class="mt-3">
+                <strong class="green">this._image=this.add
+                    .image(this.game.canvas.width / 2, 550, "sprite");</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <p>
+
+                Adesso utilizziamo per la prima volta il metodo <strong>UPDATE</strong> inserendo l' istruzione
+                per
+                far ruotare il nostro elemento.
+            </p>
+            <p>
+                <strong class="green">this._image.rotation += 0.1;</strong>
+            </p>
+
+
+
+        </div>
+    </div>
+
+
+
+
+</div>

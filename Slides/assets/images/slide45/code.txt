@@ -1,0 +1,25 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+        let _mioNumero:number=0;
+
+        let _mioBooleano:boolean=false;
+
+        let _miaString:string="Hello World";
+
+        let _mioArray1:Array&lt;number&gt;=[1,2,3]; 
+
+        let _mioArray2:Array&lt;string&gt;=["carote","nipote","banconote"]; 
+
+        let _mioArray3:Array&lt;any&gt;=[1,"carote",2]; 
+
+    }
+
+    update() {}
+
+}

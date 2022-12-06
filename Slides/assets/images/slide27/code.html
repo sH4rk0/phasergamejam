@@ -1,0 +1,23 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+        let _style = {
+        fontFamily: "Arial",
+        fontSize: 64,
+        color: "#ff0000",
+        stroke: "#ffffff",
+        strokeThickness: 4
+        };
+
+        this.add.text(0, 0, "Hello World!", _style);
+
+    }
+
+    update() {}
+
+}

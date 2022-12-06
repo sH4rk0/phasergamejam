@@ -1,0 +1,31 @@
+export default class Boot extends Phaser.Scene {
+
+private _timer: Phaser.Time.TimerEvent;
+private _text: Phaser.GameObjects.Text;
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+       this._text = this.add
+      .text(this.game.canvas.width / 2, 500, "Evento iniziato")
+      .setOrigin(0.5);
+
+        this._timer = this.time.addEvent({
+        delay: 1000,
+        callback: this.miaFunzione,
+        callbackScope: this
+        });
+
+    }
+
+    miaFunzione(){
+
+        this._text.setText("EVENTO COMPLETATO");
+    }
+
+    update() {}
+
+}

@@ -1,0 +1,33 @@
+export default class Boot extends Phaser.Scene {
+
+constructor() { super({key: "Boot"}); }
+
+preload() {
+
+this.load.image("sprite", "/assets/images/sprite.png");
+}
+
+create() {
+
+this.add
+.image(this.game.canvas.width / 2 - 10 - 200, 600, "sprite")
+.setScale(2);
+
+this.add
+.image(this.game.canvas.width / 2 + 10 - 200, 600, "sprite")
+.setScale(2);
+
+this.add
+.image(this.game.canvas.width / 2 - 10 + 200, 600, "sprite")
+.setScale(2)
+.setDepth(2);
+
+this.add
+.image(this.game.canvas.width / 2 + 10 + 200, 600, "sprite")
+.setScale(2)
+.setDepth(1);
+}
+
+update() {}
+
+}

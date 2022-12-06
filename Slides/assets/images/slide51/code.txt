@@ -1,0 +1,377 @@
+import { ENGINE_METHOD_DIGESTS } from "constants";
+
+export default class Boot extends Phaser.Scene {
+  private _logo: Phaser.GameObjects.Image;
+  private _ground: Phaser.GameObjects.Image;
+  private _bg1: Phaser.GameObjects.Image;
+  private _bg2: Phaser.GameObjects.TileSprite;
+  private _bg3: Phaser.GameObjects.TileSprite;
+  private _bg4: Phaser.GameObjects.TileSprite;
+  private _bg5: Phaser.GameObjects.TileSprite;
+  private _bg6: Phaser.GameObjects.TileSprite;
+  private _bg7: Phaser.GameObjects.TileSprite;
+  private _start: Phaser.GameObjects.Image;
+  private _enemyGroup: Phaser.GameObjects.Group;
+  private _score: number;
+  private _scoreText: Phaser.GameObjects.Text;
+  private _music: Phaser.Sound.BaseSound;
+
+  private _player: Phaser.GameObjects.Sprite;
+  private _playerFrames: Array<Array<Array<number>>> = [
+    [[0, 1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13], [3]],
+    [[14, 15, 16, 17, 18, 19, 20, 21], [22, 23, 24, 25, 26, 27], [17]],
+    [[28, 29, 30, 31, 32, 33, 34, 35], [36, 37, 38, 39], [31]],
+    [[42, 43, 44, 45, 46, 47, 48, 49], [50, 51, 52, 53], [45]]
+  ];
+  private _currentPlayer: number = 0;
+  private _isGameStarted: boolean = false;
+  private _enemySpawn: number;
+  private _level: number;
+  private _levelTimer: Phaser.Time.TimerEvent;
+
+  constructor() {
+    super({
+      key: "Boot"
+    });
+  }
+
+  preload() {
+    this.load.image("logo", "assets/images/logo.png");
+    let _bg: string = "1";
+
+    this.load.image("bg1", "assets/images/backgrounds/" + _bg + "/1.png");
+    this.load.image("bg2", "assets/images/backgrounds/" + _bg + "/2.png");
+    this.load.image("bg3", "assets/images/backgrounds/" + _bg + "/3.png");
+    this.load.image("bg4", "assets/images/backgrounds/" + _bg + "/4.png");
+    this.load.image("bg5", "assets/images/backgrounds/" + _bg + "/5.png");
+    this.load.image("bg6", "assets/images/backgrounds/" + _bg + "/6.png");
+    this.load.image("bg7", "assets/images/backgrounds/" + _bg + "/7.png");
+
+    this.load.spritesheet("player", "assets/images/players/players.png", {
+      frameWidth: 52,
+      frameHeight: 70,
+      endFrame: 84
+    });
+    this.load.spritesheet("explosion", "assets/images/explosion.png", {
+      frameWidth: 80,
+      frameHeight: 80,
+      endFrame: 28
+    });
+
+    this.load.spritesheet("bomb", "assets/images/bomb.png", {
+      frameWidth: 33,
+      frameHeight: 31,
+      endFrame: 6
+    });
+
+    this.load.audio("explosion", [
+      "assets/sounds/explosion.ogg",
+      "assets/sounds/explosion.m4a"
+    ]);
+    this.load.audio("intro", [
+      "assets/sounds/intro.ogg",
+      "assets/sounds/intro.m4a"
+    ]);
+
+    this.load.audio("score", ["assets/sounds/score.ogg"]);
+  }
+
+  create() {
+    this._music = this.sound.add("intro");
+    this._music.play(undefined, {
+      loop: true,
+      volume: 0.1
+    });
+    this._scoreText = this.add
+      .text(this.game.canvas.width / 2, 300, "0", {
+        fontFamily: "Arial",
+        fontSize: 200,
+        color: "#ffffff",
+        stroke: "#333333",
+        strokeThickness: 5
+      })
+      .setDepth(102)
+      .setOrigin(0.5)
+      .setAlpha(0);
+    this._enemyGroup = this.add.group();
+    this._enemySpawn = this.time.now;
+
+    let graphics = this.make
+
+      .graphics({})
+      .fillStyle(0x00ff00)
+      .fillRect(0, 0, 1280, 100);
+
+    graphics.generateTexture("ground", 1280, 100);
+
+    graphics.destroy();
+
+    this._ground = this.physics.add
+      .image(0, 715, "ground")
+      .setDepth(10000)
+      .setOrigin(0)
+      .setAlpha(0);
+
+    //@ts-ignore
+    this._ground.setImmovable(true);
+    //@ts-ignore
+    this._ground.body.allowGravity = false;
+
+    this._logo = this.add
+      .image(this.game.canvas.width / 2, 0, "logo")
+      .setScale(0.5)
+      .setOrigin(0.5, 0)
+      .setDepth(100)
+      .setInteractive();
+    this._logo.on("pointerup", () => {
+      this.start();
+    });
+
+    this._bg1 = this.add
+      .image(0, 0, "bg1")
+      .setOrigin(0)
+      .setDepth(1);
+
+    this._bg2 = this.add
+      .tileSprite(0, 0, 1280, 800, "bg2")
+      .setOrigin(0)
+      .setAlpha(0.5)
+      .setDepth(3);
+
+    this._bg3 = this.add
+      .tileSprite(0, 0, 1280, 800, "bg3")
+      .setOrigin(0)
+      .setDepth(2);
+
+    this._bg4 = this.add
+      .tileSprite(0, 0, 1280, 800, "bg4")
+      .setOrigin(0)
+      .setDepth(2);
+
+    this._bg5 = this.add
+      .tileSprite(0, 0, 1280, 800, "bg5")
+      .setOrigin(0)
+      .setDepth(2);
+
+    this._bg6 = this.add
+      .tileSprite(0, -100, 1280, 800, "bg6")
+      .setOrigin(0)
+      .setDepth(4);
+
+    this._bg7 = this.add
+      .tileSprite(0, -250, 1280, 1080, "bg7")
+      .setOrigin(0)
+      .setDepth(5);
+
+    this._player = this.physics.add
+      .sprite(0, 0, "player")
+      .setDepth(6)
+      .setPosition(100, 600)
+      .setOrigin(0.5)
+      .setScale(2);
+
+    let _animation = {
+      key: "run",
+      frames: this.anims.generateFrameNumbers("player", {
+        frames: this._playerFrames[this._currentPlayer][0]
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: -1
+    };
+
+    this.anims.create(_animation);
+
+    _animation = {
+      key: "idle",
+      frames: this.anims.generateFrameNumbers("player", {
+        frames: this._playerFrames[this._currentPlayer][1]
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: -1
+    };
+
+    this.anims.create(_animation);
+
+    _animation = {
+      key: "bomb-rotation",
+      frames: this.anims.generateFrameNumbers("bomb", {
+        frames: [0, 1, 2, 3, 4, 5]
+      }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: -1
+    };
+
+    this.anims.create(_animation);
+
+    _animation = {
+      key: "explosion",
+      frames: this.anims.generateFrameNumbers("explosion", {
+        frames: [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27
+        ]
+      }),
+      frameRate: 20,
+      yoyo: false,
+      repeat: 0
+    };
+
+    this.anims.create(_animation);
+
+    _animation = {
+      key: "jump",
+      frames: this.anims.generateFrameNumbers("player", {
+        frames: this._playerFrames[this._currentPlayer][2]
+      }),
+      frameRate: 0,
+      yoyo: false,
+      repeat: 0
+    };
+
+    this.anims.create(_animation);
+
+    this._player.anims.play("idle");
+
+    this.input.on("pointerdown", () => {
+      if (!this._isGameStarted) return;
+      this._player.play("jump");
+      //@ts-ignore
+      if (this._player.body.velocity.y == 0)
+        //@ts-ignore
+        this._player.body.velocity.y = -600;
+    });
+
+    this.physics.add.collider(this._player, this._ground);
+    this.physics.add.collider(
+      this._player,
+      this._enemyGroup,
+      (_bomb: any, _player: any) => {
+        _bomb.destroy();
+        _player.destroy();
+        this.gameOver();
+      },
+      undefined,
+      this
+    );
+    //  this.addEnemy();
+  }
+
+  update() {
+    if (this._isGameStarted) {
+      this._bg2.tilePositionX += 0.2;
+      this._bg3.tilePositionX += 0.05;
+      this._bg4.tilePositionX += 0.1;
+      this._bg5.tilePositionX += 0.3;
+      this._bg6.tilePositionX += 0.5;
+      this._bg7.tilePositionX += 5;
+
+      this.spawn();
+
+      this._enemyGroup.getChildren().forEach((bomb: any) => {
+        if (bomb.x < 0) {
+          bomb.destroy();
+          this._scoreText.setText("" + this._score++);
+          let _score: Phaser.Sound.BaseSound = this.sound.add("score");
+          _score.play(undefined, { volume: 0.05 });
+        }
+      });
+
+      //@ts-ignore
+      if (this._player.body.velocity.y == 0) this._player.play("run", true);
+    } else {
+      this._bg2.tilePositionX += 0.2;
+    }
+  }
+
+  start(): void {
+    this._score = 0;
+    this._scoreText.setText("" + this._score++);
+    this._logo.setAlpha(0);
+    this._scoreText.setAlpha(1);
+    this._levelTimer = this.time.addEvent({
+      delay: 5000,
+      callback: () => {
+        this._level++;
+      },
+      callbackScope: this,
+      loop: true
+    });
+    this._level = 0;
+    this._player.play("run");
+    this._isGameStarted = true;
+  }
+
+  spawn(): void {
+    if (this._enemySpawn < this.time.now) {
+      this._enemySpawn = this.time.now + (2000 - 100 * this._level);
+      this._enemyGroup.add(this.addEnemy());
+    }
+  }
+
+  addEnemy(): Phaser.GameObjects.Sprite {
+    let _bomb: Phaser.GameObjects.Sprite = this.physics.add
+      .sprite(1300, 680, "bomb")
+      .setDepth(10)
+      .setScale(2)
+      .setImmovable(true)
+      .setCircle(15);
+    //@ts-ignore
+    _bomb.body.allowGravity = false;
+    _bomb.play("bomb-rotation");
+    //@ts-ignore
+    _bomb.body.velocity.x = Phaser.Math.RND.integerInRange(-620, -580);
+    return _bomb;
+  }
+
+  gameOver(): void {
+    this._music.destroy();
+    this._level = 0;
+    this._isGameStarted = false;
+    this._levelTimer.remove(false);
+    let explosionSound: Phaser.Sound.BaseSound = this.sound.add("explosion");
+    explosionSound.play();
+    
+    let explosion: Phaser.GameObjects.Sprite = this.add
+      .sprite(100, 680, "explosion")
+      .setDepth(101)
+      .setScale(2);
+    
+    explosion.on(
+      "animationcomplete",
+      () => {
+        this.scene.start("Boot");
+      },
+      this
+    );
+    explosion.play("explosion");
+  }
+}

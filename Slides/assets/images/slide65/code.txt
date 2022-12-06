@@ -1,0 +1,19 @@
+
+
+const _array: Array&lt;string&gt; = ['a', 'b', 'c'];
+
+_array.forEach(element => console.log(element));
+
+//oppure
+
+_array.forEach((element) => {console.log(element)});
+
+//oppure
+
+_array.forEach((element,index) => {console.log(element,index)});
+
+
+// expected output: "a",0
+// expected output: "b",1
+// expected output: "c",2 
+

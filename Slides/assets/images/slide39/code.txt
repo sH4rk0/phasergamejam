@@ -1,0 +1,28 @@
+export default class Boot extends Phaser.Scene {
+
+ private _music: Phaser.Sound.BaseSound;
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {
+
+        this.load.audio("intro", [
+      "assets/sounds/intro.ogg",
+      "assets/sounds/intro.m4a"
+    ]);
+
+    }
+
+    create() {
+
+         this._music = this.sound.add("intro");
+    this._music.play(undefined, {
+      loop: true,
+      volume: 0.1
+    });
+    
+    }
+
+    update() {}
+
+}

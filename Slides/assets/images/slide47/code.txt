@@ -1,0 +1,19 @@
+
+  const config: any = {
+    type: Phaser.WEBGL,
+    backgroundColor: "#FF6600",
+    parent: "my-game",
+    scale: {
+      mode: Phaser.Scale.FIT,
+      width: 1280,
+      height: 800
+    },
+    scene: [Boot],
+    physics: {
+        default: "arcade",
+        arcade: {
+          debug: true,
+          gravity: { y: 1 }
+        }
+      }
+  };

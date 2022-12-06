@@ -1,0 +1,21 @@
+
+
+const x:number=10;
+const y:number=20;
+
+if(x==y){   
+
+    ...do some code
+
+} else if( x < y ){
+
+    ...do some code
+
+} else { 
+
+    ...do some code
+
+}
+
+
+

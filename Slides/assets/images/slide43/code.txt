@@ -1,0 +1,41 @@
+export default class Boot extends Phaser.Scene {
+
+private _timer: Phaser.Time.TimerEvent;
+private _text: Phaser.GameObjects.Text;
+private _level: number;
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+        this._level = 0;
+       this._text = this.add
+      .text(this.game.canvas.width / 2, 500, "Evento iniziato")
+      .setOrigin(0.5);
+
+        this._timer = this.time.addEvent({
+        delay: 1000,
+        callback: this.miaFunzione,
+        callbackScope: this,
+        loop:true
+        });
+
+    }
+
+    miaFunzione(){
+
+        this._level++;
+
+    this._text
+      .setText("livello:" + this._level)
+      .setColor("#00ff00")
+      .setFontSize(40);
+    if (this._level == 5) {
+      this._timer.destroy();
+    }
+    }
+
+    update() {}
+
+}

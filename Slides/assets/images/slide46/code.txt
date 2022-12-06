@@ -1,0 +1,30 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+    this.time.addEvent({
+        delay: 2000,
+        callback: () => {
+            alert(this.miafunzione());
+            alert(this.miafunzione2());
+        },
+        callbackScope: this
+  });
+
+    }
+
+    miafunzione(): void {
+        let _numero:number = 3 + 4;
+    }
+
+    miafunzione2(): number {
+        return 3 * 2;
+    }
+
+    update() {}
+
+}

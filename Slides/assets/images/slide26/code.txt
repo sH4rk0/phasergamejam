@@ -1,0 +1,44 @@
+export default class Boot extends Phaser.Scene {
+
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+    let graphics = this.add.graphics();
+
+    //circle
+    graphics.fillStyle(0xffff00, 1);
+    graphics.fillCircle(600, 530, 120);
+
+    graphics.fillStyle(0x000000, 1);
+    graphics.fillCircle(550, 500, 20);
+
+    graphics.fillStyle(0x000000, 1);
+    graphics.fillCircle(650, 500, 20);
+
+    //arc
+    graphics.lineStyle(4, 0x000000, 1);
+    //  Without this the arc will appear closed when stroked
+    graphics.beginPath();
+    // arc (x, y, radius, startAngle, endAngle, anticlockwise)
+    graphics.arc(
+      600,
+      500,
+      100,
+      Phaser.Math.DegToRad(90 - 45),
+      Phaser.Math.DegToRad(90 + 45),
+      false
+    );
+    graphics.strokePath();
+    graphics.generateTexture("smile", 1280, 800);
+    graphics.destroy();
+
+    this.add.image(640, 400, "smile");
+
+    }
+
+    update() {}
+
+}

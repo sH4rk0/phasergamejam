@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>HELLO SOUND!</h1>
+            <h2>Implementiamo il nostro audio</h2>
+        </div>
+    </div></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Creaiamo la variabile che ospiterà la nostra musica...
+            </p>
+            <p><strong class="green">private _music: Phaser.Sound.BaseSound;</strong></p>
+
+            <p>
+                Nel preload carichiamo il file audio...
+            </p>
+            <p><strong class="green"> this.load.audio("intro", [
+                    "assets/sounds/intro.ogg",
+                    "assets/sounds/intro.m4a"
+                    ]);</strong></p>
+            <p>
+                Nel Create settiamo la variabile con il suono...
+            </p>
+            <p><strong class="green">this._music = this.sound.add("intro");
+                    this._music.play(undefined, {
+                    loop: true,
+                    volume: 0.1
+                    });</strong></p>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>

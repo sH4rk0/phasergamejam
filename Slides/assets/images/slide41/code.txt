@@ -1,0 +1,19 @@
+export default class Boot extends Phaser.Scene {
+ 
+    private _text: Phaser.GameObjects.Text;
+    
+    constructor() { super({key: "Boot"}); }
+
+    preload() {}
+
+    create() {
+
+        this._text = this.add.text(0, 0, "");
+    }
+
+    update() {
+
+        this._text.setText(" " + this.time.now);
+    }
+
+}
