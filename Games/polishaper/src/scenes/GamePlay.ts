@@ -67,7 +67,7 @@ export default class GamePlay extends Phaser.Scene {
   //questo metodo viene richiamato in automatico quando viene creata una scena e viene chiamato prima del CREATE
   // i metodi richiamati in automatico in una scena sono INIT, PRELOAD, CREATE, UPDATE
   // non devono essere per forza presenti tutti
-  init(data: any) {
+  init(data: {level:number}) {
 
     //recuperiamo il valore levelcompleted e controlliamo che questo valore non sia nulla   
     if (data.level != null) {
