@@ -1,18 +1,13 @@
 export default class GameOver extends Phaser.Scene {
 
-
   constructor() {
     super({
       key: "GameOver",
     });
   }
 
-  create() {
-
-    console.log("Create:gameover")
-  }
+  create() { }
 
   update(time: number, delta: number): void { }
-
 
 }

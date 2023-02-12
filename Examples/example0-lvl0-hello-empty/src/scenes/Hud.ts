@@ -7,9 +7,7 @@ export default class Hud extends Phaser.Scene {
     });
   }
 
-  create() {
-
-  }
+  create() { }
 
   update(time: number, delta: number): void { }
 
