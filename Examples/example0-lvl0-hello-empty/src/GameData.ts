@@ -4,7 +4,7 @@ export let GameData: any = {
     gameWidth: 1024,
     gameHeight: 600,
     bgColor: "#ffffff",
-    debug: false,
+    debug: true,
   },
 
   preloader: {
@@ -65,6 +65,20 @@ export let GameData: any = {
     frames: 15
   },
   {
+    name: "robo",
+    path: "assets/images/robo.png",
+    width: 30,
+    height: 50,
+    frames: 8
+  },
+  {
+    name: "robo2",
+    path: "assets/images/robo2.png",
+    width: 30,
+    height: 50,
+    frames: 8
+  },
+  {
     name: "asteroid-3",
     path: "assets/images/asteroid-3.png",
     width: 70,
@@ -77,8 +91,30 @@ export let GameData: any = {
     width: 130,
     height: 132,
     frames: 5
+  }, {
+    name: "bonus-heart",
+    path: "assets/images/bonus-heart.png",
+    width: 40,
+    height: 40,
+    frames: 2
+  },
+  {
+    name: "bonus-key",
+    path: "assets/images/bonus-key.png",
+    width: 40,
+    height: 40,
+    frames: 2
+  },
+  {
+    name: "bonus-coin",
+    path: "assets/images/bonus-coin.png",
+    width: 64,
+    height: 64,
+    frames: 8
   }],
   images: [
+    { name: "cannon_head", path: "assets/images/cannon_head.png" },
+    { name: "cannon_body", path: "assets/images/cannon_body.png" },
     { name: "logo", path: "assets/images/galaxian.png" },
     { name: "layer", path: "assets/images/layer.png" },
     { name: "popup", path: "assets/images/popup.png" },
@@ -91,12 +127,23 @@ export let GameData: any = {
     { name: "bg7", path: "assets/images/7.png" },
     { name: "space", path: "assets/images/bg.jpg" },
     { name: "nebula", path: "assets/images/nebula.jpg" },
+    { name: "grid", path: "assets/images/grid.png" },
     {
       name: "logo-phaser",
       path: "assets/images/logo-phaser.png",
     },],
   atlas: [],
-  sounds: [],
-  audio: [],
+  sounds: [{
+    name: "intro",
+    paths: ["assets/sounds/intro.ogg", "assets/sounds/intro.m4a"],
+  },
+  ],
+  audio: [
+    {
+      name: "sfx",
+      jsonpath: "assets/sounds/sfx.json",
+      paths: ["assets/sounds/sfx.ogg", "assets/sounds/sfx.m4a"],
+    },
+  ],
   bitmapfont: [],
 };

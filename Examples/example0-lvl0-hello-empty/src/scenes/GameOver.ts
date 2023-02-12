@@ -10,9 +10,9 @@ export default class GameOver extends Phaser.Scene {
   create() {
 
     console.log("Create:gameover")
-
-
   }
+
+  update(time: number, delta: number): void { }
 
 
 }

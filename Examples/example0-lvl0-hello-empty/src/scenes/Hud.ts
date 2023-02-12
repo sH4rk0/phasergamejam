@@ -1,7 +1,5 @@
-import GamePlay from "./GamePlay";
 
 export default class Hud extends Phaser.Scene {
-
 
   constructor() {
     super({
@@ -9,11 +7,10 @@ export default class Hud extends Phaser.Scene {
     });
   }
 
-  preload() { }
-
   create() {
-    console.log("create:HUD")
-
 
   }
+
+  update(time: number, delta: number): void { }
+
 }
