@@ -53,7 +53,6 @@ export default class GamePlay extends Phaser.Scene {
 
     switch (this._level) {
 
-
       case 0:
         this._player = new Player2directions({ scene: this, x: 100, y: 100, key: "robo-idle" });
         this.followPlayer();

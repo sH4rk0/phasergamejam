@@ -5,7 +5,12 @@ import Intro from "./scenes/Intro";
 import Hud from "./scenes/Hud";
 import GameOver from "./scenes/GameOver";
 import GamePlay from "./scenes/GamePlay";
+import scienziato from "./scenes/scienziato";
+import FabioIacolare from "./scenes/FabioIacolare";
+import laboratorio from "./scenes/laboratorio";
+import Caverna from "./scenes/Caverna";
 import { GameData } from "./GameData";
+
 
 window.addEventListener("load", () => {
 
@@ -24,21 +29,30 @@ window.addEventListener("load", () => {
       Preloader,
       Intro,
       Hud,
-      GamePlay,
-      GameOver
+      GamePlay,  
+      GameOver,
+      scienziato,
+      FabioIacolare,
+      laboratorio,
+      Caverna
+  
+      
     ],
+   
 
     physics: {
       default: "arcade",
       arcade: {
-        debug: GameData.globals.debug,
-        gravity: { y: 300 }
+        
+        debug: true,
       }
     },
+
     input: {
       activePointers: 2,
       keyboard: true,
     },
+
     render: {
       pixelArt: true,
       antialias: false,

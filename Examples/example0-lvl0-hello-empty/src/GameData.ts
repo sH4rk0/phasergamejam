@@ -6,144 +6,167 @@ export let GameData: any = {
     bgColor: "#ffffff",
     debug: true,
   },
-
   preloader: {
     bgColor: "",
     image: "phaser",
-    imageX: 512,
+    imageX: 500,
     imageY: 300,
     loadingText: "",
   },
 
-  spritesheets: [{
-    name: "players",
-    path: "assets/images/players.png",
-    width: 52,
-    height: 70,
-    frames: 84
-  },
-  {
-    name: "bomb",
-    path: "assets/images/bomb.png",
-    width: 33,
-    height: 31,
-    frames: 6
-  },
-  {
-    name: "explosion",
-    path: "assets/images/explosion.png",
-    width: 80,
-    height: 80,
-    frames: 28
-  }, {
-    name: "explosion-2",
-    path: "assets/images/explosion2.png",
-    width: 64,
-    height: 64,
-    spacing: 25
-  },
-
-  {
-    name: "asteroid-0",
-    path: "assets/images/asteroid-0.png",
-    width: 80,
-    height: 80,
-    frames: 12
-  },
-  {
-    name: "asteroid-1",
-    path: "assets/images/asteroid-1.png",
-    width: 80,
-    height: 80,
-    frames: 12
-  },
-  {
-    name: "asteroid-2",
-    path: "assets/images/asteroid-2.png",
-    width: 100,
-    height: 100,
-    frames: 15
-  },
-  {
-    name: "robo",
-    path: "assets/images/robo.png",
-    width: 30,
-    height: 50,
-    frames: 8
-  },
-  {
-    name: "robo2",
-    path: "assets/images/robo2.png",
-    width: 30,
-    height: 50,
-    frames: 8
-  },
-  {
-    name: "asteroid-3",
-    path: "assets/images/asteroid-3.png",
-    width: 70,
-    height: 70,
-    frames: 13
-  },
-  {
-    name: "flares",
-    path: "assets/images/flares.png",
-    width: 130,
-    height: 132,
-    frames: 5
-  }, {
-    name: "bonus-heart",
-    path: "assets/images/bonus-heart.png",
-    width: 40,
-    height: 40,
-    frames: 2
-  },
-  {
-    name: "bonus-key",
-    path: "assets/images/bonus-key.png",
-    width: 40,
-    height: 40,
-    frames: 2
-  },
-  {
-    name: "bonus-coin",
-    path: "assets/images/bonus-coin.png",
-    width: 64,
-    height: 64,
-    frames: 8
-  }],
-  images: [
-    { name: "cannon_head", path: "assets/images/cannon_head.png" },
-    { name: "cannon_body", path: "assets/images/cannon_body.png" },
-    { name: "logo", path: "assets/images/galaxian.png" },
-    { name: "layer", path: "assets/images/layer.png" },
-    { name: "popup", path: "assets/images/popup.png" },
-    { name: "bg1", path: "assets/images/1.png" },
-    { name: "bg2", path: "assets/images/2.png" },
-    { name: "bg3", path: "assets/images/3.png" },
-    { name: "bg4", path: "assets/images/4.png" },
-    { name: "bg5", path: "assets/images/5.png" },
-    { name: "bg6", path: "assets/images/6.png" },
-    { name: "bg7", path: "assets/images/7.png" },
-    { name: "space", path: "assets/images/bg.jpg" },
-    { name: "nebula", path: "assets/images/nebula.jpg" },
-    { name: "grid", path: "assets/images/grid.png" },
+  spritesheets: [
     {
-      name: "logo-phaser",
-      path: "assets/images/logo-phaser.png",
-    },],
-  atlas: [],
-  sounds: [{
-    name: "intro",
-    paths: ["assets/sounds/intro.ogg", "assets/sounds/intro.m4a"],
-  },
-  ],
-  audio: [
+      name: "Pav",
+      path: "assets/Mappa/Blocchi.png",
+      width: 32,
+      height: 32,
+      spacing: 0,
+      margin: 0,
+    },
     {
-      name: "sfx",
-      jsonpath: "assets/sounds/sfx.json",
-      paths: ["assets/sounds/sfx.ogg", "assets/sounds/sfx.m4a"],
+      name: "Car",
+      path: "assets/Mappa/macchine.png",
+      width: 84,
+      height: 57,
+      spacing: 0,
+      margin: 0,
+    },
+    {
+      name: "Proi",
+      path: "assets/images/proiettili.png",
+      width: 20,
+      height: 20,
+      frames: 12,
+    },
+    {
+      name: "Main",
+      path: "assets/images/Corsa.png",
+      width: 40,
+      height: 43,
+      frames: 11,
+    },
+    {
+      name: "Fermo",
+      path: "assets/images/sta_puntando.png",
+      width: 40,
+      height: 43,
+      frames: 1,
+    },
+    {
+      name: "Fermo",
+      path: "assets/images/Copp.png",
+      width: 28,
+      height: 40,
+      frames: 4,
+    },
+    {
+      name: "sfondo",
+      path: "assets/map/sfondo.png",
+      width: 32,
+      height: 32,
+      spacing: 2,
+      margin: 1,
     },
   ],
+
+  images: [
+    {
+      name: "bg",
+      path: "assets/Sfondo/introcity.png",
+    },
+    {
+      name: "player_intro",
+      path: "assets/images/playerintro.png",
+    },
+    {
+      name: "aereo",
+      path: "assets/images/aereo.png",
+    },
+    {
+      name: "popup",
+      path: "assets/images/x.png",
+    },
+    {
+      name: "options",
+      path: "assets/images/options.png",
+    },
+    {
+      name: "Sfondo",
+      path: "assets/images/Sfondo.png",
+    },
+    {
+      name: "intro-image",
+      path: "assets/Sfondo/introcity.png",
+    },
+    {
+      name: "bar_contipi",
+      path: "assets/images/bar_contipi.png",
+    },
+    {
+      name: "freccia",
+      path: "assets/images/freccia.png",
+    },
+    {
+      name: "dialogo_destra",
+      path: "assets/images/dialogo_destra.png",
+    },
+    {
+      name: "dialogo_sinistra",
+      path: "assets/images/dialogo_sinistra.png",
+    },
+    {
+      name: "labs",
+      path: "assets/images/labs.png",
+    },
+
+    {
+      name: "stradabg",
+      path: "assets/imagestradaty.png",
+    },
+    {
+      name: "cuore",
+      path: "assets/images/cuore.png",
+    },
+    {
+      name: "proiettili",
+      path: "assets/images/proiettili.png",
+    },
+    {
+      name: "proiettil",
+      path: "assets/images/proiettili_pieni.png",
+    },
+    {
+      name: "proiettili_vuoti",
+      path: "assets/images/proiettili_vuoti.png",
+    },
+    {
+      name: "lvl1city",
+      path: "assets/Sfondo/lvl1city.png",
+    },
+  ],
+  atlas: [],
+  sounds: [{
+    name: "sfx",
+    jsonpath: "assets/sounds/sfx.json",
+    paths: ["assets/sounds/sfx.ogg", "assets/sounds/sfx.m4a"]
+  },
+  {
+    name: "_intro",
+    paths: ["assets/sounds/canzoneintro.ogg", "assets/sounds/canzoneintro.m4a"]
+  },
+  {
+    name: "_button",
+    paths: ["assets/sounds/button.ogg", "assets/sounds/button.m4a"]
+  },
+  {
+    name: "_musicbar",
+    paths: ["assets/sounds/music-bar.ogg", "assets/sounds/music-bar.m4a"]
+  }],
+  audio: [],
   bitmapfont: [],
+  tilemaps: [{
+    key: "level-0",
+    path: "assets/Mappa/Map1.json",
+  },
+  ]
 };

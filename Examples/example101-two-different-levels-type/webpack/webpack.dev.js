@@ -6,7 +6,7 @@ const dev = {
   devtool: 'inline-source-map',
   devServer: {
     open: true,
-     port: 9000
+     port: 9006
   }
 }
 
