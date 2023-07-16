@@ -1,220 +1,198 @@
 export default class Intro extends Phaser.Scene {
 
+  private _containerCredits: Phaser.GameObjects.Container;
+  private _groupStars: Phaser.GameObjects.Group;
+
+  private _tile1: Phaser.GameObjects.TileSprite;
   private _logo: Phaser.GameObjects.Image;
-  private _play: Phaser.GameObjects.BitmapText;
-  private _credits: Phaser.GameObjects.BitmapText;
-  private _music: Phaser.Sound.BaseSound;
-  private _music2: Phaser.Sound.BaseSound;
-  private _creditsContainer: Phaser.GameObjects.Container;
-  private _creditsContainerText: Phaser.GameObjects.Text;
-  private _creditsContainerBackground: Phaser.GameObjects.Image;
-  private _creditsContainerBackground2: Phaser.GameObjects.Image;
-  private _creditsContainerEsc: Phaser.GameObjects.Image;
-  private _M: Phaser.GameObjects.Sprite;
-  private _Aereo: Phaser.GameObjects.TileSprite;
-  private _Aereo2: Phaser.GameObjects.TileSprite;
-  private _Aereo3: Phaser.GameObjects.TileSprite;
-  private _Aereo4: Phaser.GameObjects.TileSprite;
-  private _Aereo5: Phaser.GameObjects.TileSprite;
-  private _Aereo6: Phaser.GameObjects.TileSprite;
-  private _Aereo7: Phaser.GameObjects.TileSprite;
-  private _Aereo8: Phaser.GameObjects.TileSprite;
-  private _Aereo9: Phaser.GameObjects.TileSprite;
-  private _Aereo10: Phaser.GameObjects.TileSprite;
-  private _Aereo11: Phaser.GameObjects.TileSprite;
-  private _Aereo12: Phaser.GameObjects.TileSprite;
-  private _Aereo13: Phaser.GameObjects.TileSprite;
-  private _Aereo14: Phaser.GameObjects.TileSprite;
-  private _Aereo15: Phaser.GameObjects.TileSprite;
-  private _Aereo16: Phaser.GameObjects.TileSprite;
-  private _Aereo17: Phaser.GameObjects.TileSprite;
-  private _Aereo18: Phaser.GameObjects.TileSprite;
-  private _Aereo19: Phaser.GameObjects.TileSprite;
-  private _Aereo20: Phaser.GameObjects.TileSprite;
-  private _Aereo21: Phaser.GameObjects.TileSprite;
-  private _Aereo22: Phaser.GameObjects.TileSprite;
-  private _Aereo23: Phaser.GameObjects.TileSprite;
-  private _Aereo24: Phaser.GameObjects.TileSprite;
+
+  private _bomb1: Phaser.GameObjects.Sprite;
+  private _bomb2: Phaser.GameObjects.Sprite;
+
+  private _text1: Phaser.GameObjects.Text;
+  private _text2: Phaser.GameObjects.Text;
+  private _close: Phaser.GameObjects.Text;
+
+
+  private _counter: number = 0;
+  private _clicked: boolean = false;
+
   constructor() {
     super({
       key: "Intro",
     });
 
+
   }
 
+  preload() {
 
 
-
+  }
 
   create() {
-    this.add.tileSprite(500, 250, 0, 0, "intro-image").setOrigin(1).setPosition(1024, 600);
 
 
 
+    //setta il background di sfondo a bianco
+    this.cameras.main.setBackgroundColor("#ffffff");
+    this._tile1 = this.add.tileSprite(0, 0, 1024, 600, "nebula").setOrigin(0);
 
+    this._logo = this.add.image(512, 50, "logo").setScale(.8).setAlpha(0).setDepth(10);
 
+    let _animation: Phaser.Types.Animations.Animation = {
+      key: "bomb-rotation",
+      frames: this.anims.generateFrameNumbers("bomb", { frames: [0, 1, 2, 3, 4, 5] }),
+      frameRate: 10,
+      yoyo: false,
+      repeat: -1
+    };
+    this.anims.create(_animation);
 
+    this._text1 = this.add.text(512, 350, "Play").setDepth(10).setAlpha(0).setOrigin(.5).setFontSize(40).setFontFamily("Roboto").setInteractive().on("pointerover", () => {
+      this._text1.setTint(0xff0000);
+      this.setBombsPosition(this._text1.x, this._text1.y)
+    }).on("pointerout", () => {
+      this._text1.clearTint();
+    }).on("pointerdown", () => {
+      this.scene.stop("Intro");
+      this.scene.start("GamePlay");
+    });
 
-    this._Aereo = this.add.tileSprite(-300, 40, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo2 = this.add.tileSprite(-43, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.3, .2);
-    this._Aereo3 = this.add.tileSprite(-125, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo4 = this.add.tileSprite(-2000, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo5 = this.add.tileSprite(-1507, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo6 = this.add.tileSprite(-1662, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo7 = this.add.tileSprite(-2000, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo8 = this.add.tileSprite(-2307, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo9 = this.add.tileSprite(-2462, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo10 = this.add.tileSprite(-3100, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo11 = this.add.tileSprite(-3534, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo12 = this.add.tileSprite(-3842, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo13 = this.add.tileSprite(-3980, 40, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo14 = this.add.tileSprite(-4300, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.3, .2);
-    this._Aereo15 = this.add.tileSprite(-4574, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo16 = this.add.tileSprite(-4876, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo17 = this.add.tileSprite(-5144, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo18 = this.add.tileSprite(-5632, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo19 = this.add.tileSprite(-6012, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo20 = this.add.tileSprite(-6344, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo21 = this.add.tileSprite(-6578, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo22 = this.add.tileSprite(-6890, 10, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._Aereo23 = this.add.tileSprite(-7007, 70, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.24, .2);
-    this._Aereo24 = this.add.tileSprite(-6643, 120, 0, 0, "aereo").setOrigin(0).setDepth(1).setScale(.4, .3);
-    this._M = this.add.sprite(510, 493, "player_intro").setDepth(1).setScale(.15);
-    this._music = this.sound.add("_intro", { loop: true, volume: 0.7 });
-    this._music.play();
-    this._creditsContainer = this.add.container().setAlpha(0).setDepth(10);
-    this._creditsContainerText = this.add.text(this.game.canvas.width / 2, 100, "").setTint(0xff0000).setOrigin(.5);
-    this._creditsContainerBackground = this.add.image(0, 0, "").setOrigin(.0).setScale(.1).setPosition(450, 0);
-    this._creditsContainerBackground2 = this.add.image(this.game.canvas.width / 2, 120, "options");
-
-    this._creditsContainer.add([
-      this._creditsContainerBackground,
-      this._creditsContainerText,
-      this._creditsContainerBackground2,
-      this.add.text(this.game.canvas.width / 2, 100, "Creators").setTint(0xff0000).setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(475, 15),
-      this.add.text(this.game.canvas.width / 2, 100, "Andrea Iacolare / andrue").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 45),
-      this.add.text(this.game.canvas.width / 2, 100, "Michele Pascarella / zozne").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 75),
-      this.add.text(this.game.canvas.width / 2, 100, "Fabio Iacolare / fasbruk").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 105),
-      this.add.text(this.game.canvas.width / 2, 100, "Giovanni Torrente / zio gio").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 135),
-      this.add.text(this.game.canvas.width / 2, 100, "Angelo  Galzerano / brodino").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 165),
-      this.add.text(this.game.canvas.width / 2, 100, "Gabriele Di Maio / nog").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 195),
-      this.add.text(this.game.canvas.width / 2, 100, "Giampoalo La Cerra / tondus").setFontFamily('Georgia,"Goudy Booletter 1911",Times,serif').setScale(1.4).setPosition(378, 225),
-      this.add.image(0, 0, "popup").setOrigin(.0).setScale(.1).setPosition(640, 0).setInteractive()
-        .on("pointerdown", () => {
-          this.closeCredits();
-        })]);
-
-
-    this.cameras.main.setBackgroundColor(0xffffff);
-    this._logo = this.add.image(this.game.canvas.width / 2, 50, "arkanoid").setAlpha(0);
-    this._play = this.add
-      .bitmapText(this.game.canvas.width / 2, 350, "arcade", "PLAY")
-      .setAlpha(1)
-      .setOrigin(0.5)
-      .setInteractive()
-      .setDepth(100)
-      .setScale(1.1)
-      .setTint(0x800000)
-      .on("pointerup", () => {
-        this._play.removeInteractive();
-        this.startGame();
-      })
+    this._text2 = this.add.text(512, 450, "Credits").setDepth(10).setAlpha(0).setOrigin(.5).setFontSize(40).setFontFamily("Roboto").setInteractive()
       .on("pointerover", () => {
-        this._play.setTint(0x300000).setScale(1.3);
-        this._music2 = this.sound.add("_button", { loop: false, volume: 0.7 });
-        this._music2.play();
+        this._text2.setTint(0xff0000);
+        this.setBombsPosition(this._text2.x, this._text2.y)
       })
       .on("pointerout", () => {
-        this._play.setTint(0x800000).setScale(1.1);
+        this._text2.clearTint();
+      }).on("pointerdown", () => {
+        this.showCredits();
+
       });
 
+    this._bomb1 = this.add.sprite(this._text1.x - 100, this._text1.y, "bomb");
+    this._bomb1.play("bomb-rotation").setAlpha(0).setDepth(10);
+    this._bomb2 = this.add.sprite(this._text1.x + 100, this._text1.y, "bomb");
+    this._bomb2.play("bomb-rotation").setAlpha(0).setDepth(10);
 
-    this._credits = this.add
-      .bitmapText(this.game.canvas.width / 2, 400, "arcade", "CREDITS")
-      .setAlpha(1)
-      .setOrigin(0.5)
-      .setInteractive()
-      .setDepth(100)
-      .setScale(1)
-      .setTint(0x800000)
-      .on("pointerup", () => {
-        this._credits.removeInteractive();
-      })
+    //container code
+    //--------------------------------------------------------
+    this._containerCredits = this.add.container(0, -50).setAlpha(0).setDepth(11);
+    let _layer = this.add.image(512, 300, "layer").setAlpha(.8)
+    let _popup = this.add.image(512, 300, "popup");
+    let _text = this.add.text(512, 150, "Credits").setOrigin(.5).setFontFamily("Roboto").setFontSize(40);
+    this._close = this.add.text(512, 450, "Chiudi").setOrigin(.5).setFontFamily("Roboto").setFontSize(30)
       .on("pointerover", () => {
-        this._credits.setTint(0x300000).setScale(1.3);
-        this._music2 = this.sound.add("_button", { loop: false, volume: 0.7 });
-        this._music2.play();
+        this._close.setTint(0xff0000);
       })
       .on("pointerout", () => {
-        this._credits.setTint(0x800000).setScale(1);
+        this._close.clearTint();
       })
-      .on("pointerdown", this.openCredits, this);
+      .on("pointerdown", () => {
+        this.hideCredits();
+      })
+    let _text2 = this.add.text(512, 250, "Questo è un esempio di container per inserire alcune informazioni utili al gioco.\n\nE' possibile inserire del testo lungo e per evitare che esca dai bordi del popup usiamo il metodo setWordWrapWidth(700). \n\nNel container è possibile aggiungere qualunque gameObject.").setOrigin(.5).setFontFamily("Roboto").setFontSize(20).setWordWrapWidth(700);
+    this._containerCredits.add([_layer, _popup, _text, _text2, this._close]);
+
+    //codice del tween
+    //---------------------------------------------------------------------------
+    this.tweens.add({
+      targets: this._logo, alpha: 1, y: 150, duration: 1000, ease: "Sine.easeOut", onComplete: () => {
+
+        this.tweens.add({
+          targets: this._logo, alpha: 1, y: "-=50", duration: 1500, ease: "Sine.easeInOut", yoyo: true, repeat: -1
+        });
+
+        this.tweens.add({ targets: [this._text1, this._text2], alpha: 1, duration: 1000, delay: this.tweens.stagger(300, {}) });
+
+        this.tweens.add({ targets: [this._bomb1, this._bomb2], alpha: 1, duration: 1000, delay: 600 });
+
+        this.tweens.add({ targets: [this._bomb1, this._bomb2], scale: 1.5, duration: 1000, yoyo: true, repeat: -1, delay: 600 });
+      }
+    });
+
+
+
+    this._groupStars = this.add.group();
+
+    for (let i = 0; i < 16; i++) {
+
+      let _flare = this.add.sprite(0, 0, "flares").setBlendMode("ADD");
+      _flare.setAlpha(0)
+      this._groupStars.add(_flare)
+
+    }
+    let circle = new Phaser.Geom.Circle(512, 400, 100);
+
+    Phaser.Actions.PlaceOnCircle(this._groupStars.getChildren(), circle);
+
+
+    this.tweens.add({
+      targets: this._tile1,
+      tilePositionX: "+=100",
+      ease: 'Sine.easeInOut',
+      duration: 5000,
+      yoyo: true,
+      repeat: -1
+    });
+
+    this.tweens.add({
+      targets: circle,
+      radius: 200,
+      ease: 'Sine.easeInOut',
+      duration: 1500,
+      yoyo: true,
+      repeat: -1,
+      delay: 2000,
+      onStart: () => {
+        this.tweens.add({
+          targets: this._groupStars.getChildren(), alpha: .5,
+          duration: 1000
+        });
+      },
+      onUpdate: () => {
+        Phaser.Actions.RotateAroundDistance(this._groupStars.getChildren(), { x: 512, y: 400 }, 0.02, circle.radius);
+      }
+    });
+
+
+
+
 
   }
 
-  //a
-
-
-
-  openCredits() {
-    this._credits.disableInteractive();
-    this._play.disableInteractive();
+  showCredits() {
+    this._text1.disableInteractive();
+    this._text2.disableInteractive();
     this.tweens.add({
-      targets: this._creditsContainer, alpha: 1, duration: 1000, onComplete: () => {
-        this._creditsContainerBackground.setInteractive()
+      targets: this._containerCredits, y: 0, alpha: 1, duration: 300, ease: "Sine.easeOut", onComplete: () => {
+        this._close.setInteractive();
+      }
+    })
+
+  }
+  hideCredits() {
+    this.tweens.add({
+      targets: this._containerCredits, y: -50, alpha: 0, ease: "Sine.easeOut", duration: 300, onComplete: () => {
+        this._text1.setInteractive();
+        this._text2.setInteractive();
       }
     })
   }
 
-  closeCredits() {
-    this.tweens.add({
-      targets: this._creditsContainer, alpha: 0, duration: 1000, onComplete: () => {
-        this._play.setInteractive();
-        this._credits.setInteractive();
-      }
-    })
+
+  setBombsPosition(x: number, y: number) {
+
+    this._bomb1.setPosition(x - 100, y);
+    this._bomb2.setPosition(x + 100, y);
   }
-
-  startGame() {
-
-    this.scene.stop("Intro");
-    //this.scene.start("GamePlay");
-
-    this.scene.start("FabioIacolare");
-
-    this._music.stop();
-  }
-
 
   update(time: number, delta: number): void {
 
+    this._tile1.tilePositionY += 0.4; //velocità lenta
 
-    this._Aereo.x += 5;
-    this._Aereo2.x += 3;
-    this._Aereo3.x += 5;
-    this._Aereo4.x += 6;
-    this._Aereo5.x += 5;
-    this._Aereo6.x += 4;
-    this._Aereo7.x += 7;
-    this._Aereo8.x += 3;
-    this._Aereo9.x += 4;
-    this._Aereo10.x += 5;
-    this._Aereo11.x += 4;
-    this._Aereo12.x += 6;
-    this._Aereo13.x += 4;
-    this._Aereo14.x += 6;
-    this._Aereo15.x += 5;
-    this._Aereo16.x += 6;
-    this._Aereo17.x += 3;
-    this._Aereo18.x += 5;
-    this._Aereo19.x += 7;
-    this._Aereo20.x += 3;
-    this._Aereo21.x += 4;
-    this._Aereo22.x += 5;
-    this._Aereo23.x += 4;
-    this._Aereo24.x += 5;
   }
 
-
-
 }
+

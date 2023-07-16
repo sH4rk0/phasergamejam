@@ -5,7 +5,6 @@ export default class Preloader extends Phaser.Scene {
   private _loading: Phaser.GameObjects.BitmapText;
   private _progress: Phaser.GameObjects.Graphics;
   private _image: Phaser.GameObjects.Image;
-  private _image2:Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -14,7 +13,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
-    
     this.cameras.main.setBackgroundColor("#ffffff");
     this._progress = this.add.graphics();
     this.loadAssets();
@@ -29,14 +27,14 @@ export default class Preloader extends Phaser.Scene {
         GameData.preloader.imageX,
         GameData.preloader.imageY,
         GameData.preloader.image
-      ).setScale(0.6).setPosition(500,250)
-      
+      )
       .setAlpha(0);
-      this.tweens.add({
-        targets: [this._image],
-        alpha: 1,
-        duration: 500,
-      });
+
+    this.tweens.add({
+      targets: [this._image],
+      alpha: 1,
+      duration: 500,
+    });
 
     this._loading = this.add
       .bitmapText(this.game.canvas.width / 2, 580, "arcade", "", 30)
@@ -46,16 +44,18 @@ export default class Preloader extends Phaser.Scene {
   }
 
   loadAssets(): void {
+
     this.load.on("start", () => { });
 
     this.load.on("fileprogress", (file: any, value: any) => {
+
     });
 
     this.load.on("progress", (value: any) => {
       this._progress.clear();
       this._progress.fillStyle(0xff0000, 1);
       this._progress.fillRect(0, 530, GameData.globals.width * value, 70);
-      this._loading.setText("Loading...").setTint(0xff0000).setPosition(515,450);
+      this._loading.setText("Loading...");
     });
 
     this.load.on("complete", () => {
@@ -79,7 +79,7 @@ export default class Preloader extends Phaser.Scene {
         });
       });
     });
-//a
+
 
     //Assets Load
     //--------------------------
